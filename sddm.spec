@@ -2,7 +2,7 @@
 
 Name:           sddm
 Version:        0.14.0
-Release:        13%{?dist}
+Release:        14%{?dist}
 # code GPLv2+, fedora theme CC-BY-SA
 License:        GPLv2+ and CC-BY-SA
 Summary:        QML based X11 desktop manager
@@ -225,6 +225,9 @@ exit 0
 
 
 %changelog
+* Fri Aug 25 2017 Martin Bříza <mbriza@redhat.com> - 0.14.0-14
+- Update the libXau patch based on Steve Storey's findings
+
 * Thu Aug 17 2017 Martin Bříza <mbriza@redhat.com> - 0.14.0-13
 - Port from xauth to libXau (#1370222)
 
