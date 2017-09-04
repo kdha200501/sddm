@@ -1,8 +1,8 @@
 %global _hardened_build 1
 
 Name:           sddm
-Version:        0.14.0
-Release:        14%{?dist}
+Version:        0.15.0
+Release:        1%{?dist}
 # code GPLv2+, fedora theme CC-BY-SA
 License:        GPLv2+ and CC-BY-SA
 Summary:        QML based X11 desktop manager
@@ -12,17 +12,13 @@ Source0:        https://github.com/sddm/sddm/archive/v%{version}.tar.gz
 
 ## upstream patches (in lookaside cache)
 #BuildRequires: git-core
-Patch1: 0001-Fix-display-of-user-avatars.-684.patch
-Patch2: 0002-Remove-quotes-from-ServerArguments-696.patch
-Patch3: 0003-Add-a-config-option-to-enable-high-DPI-scaling-701.patch
-Patch35: 0035-UserModel-Check-for-duplicates-from-getpwent.patch
 
 ## upstreamable patches
 # Fixes RHBZ #1392654
 Patch54: https://github.com/sddm/sddm/pull/735.patch
 
 ## downstream patches
-Patch101:       sddm-0.14.0-fedora_config.patch 
+Patch101:       sddm-0.15.0-fedora_config.patch
 
 Patch102:       0001-Port-from-xauth-to-libXau.patch
 
@@ -88,16 +84,11 @@ Obsoletes: sddm < 0.2.0-0.12
 Requires: %{name} = %{version}-%{release}
 BuildArch: noarch
 %description themes
-A collection of sddm themes, including: circles, elarun, maldives, maui.
+A collection of sddm themes, including: elarun, maldives, maya
 
 
 %prep
 %setup -q
-
-%patch1 -p1 -b .0001
-%patch2 -p1 -b .0002
-%patch3 -p1 -b .0003
-%patch35 -p1 -b .0035
 
 %patch54 -p1 -b .0054
 
@@ -222,9 +213,13 @@ exit 0
 %files themes
 %{_datadir}/sddm/themes/elarun/
 %{_datadir}/sddm/themes/maldives/
+%{_datadir}/sddm/themes/maya/
 
 
 %changelog
+* Mon Sep 04 2017 Rex Dieter <rdieter@fedoraproject.org> - 0.15.0-1
+- sddm-0.15.0 (#1487460)
+
 * Fri Aug 25 2017 Martin Bříza <mbriza@redhat.com> - 0.14.0-14
 - Update the libXau patch based on Steve Storey's findings
 

@@ -1,7 +1,2 @@
-/v0.13.0.tar.gz
 /angle-down.png
-/v0.14.0.tar.gz
-/0001-Fix-display-of-user-avatars.-684.patch
-/0002-Remove-quotes-from-ServerArguments-696.patch
-/0003-Add-a-config-option-to-enable-high-DPI-scaling-701.patch
-/0035-UserModel-Check-for-duplicates-from-getpwent.patch
+/v0.15.0.tar.gz
