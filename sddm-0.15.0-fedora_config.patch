@@ -1,13 +1,7 @@
-diff -up sddm-0.14.0/src/common/Configuration.h.fedora_config sddm-0.14.0/src/common/Configuration.h
---- sddm-0.14.0/src/common/Configuration.h.fedora_config	2017-01-28 11:31:17.718934832 -0600
-+++ sddm-0.14.0/src/common/Configuration.h	2017-01-28 11:42:49.515949182 -0600
-@@ -42,12 +42,12 @@ namespace SDDM {
-         Entry(Numlock,             NumState,    NUM_NONE,                                       _S("Initial NumLock state. Can be on, off or none.\n"
-                                                                                                    "If property is set to none, numlock won't be changed\n"
-                                                                                                    "NOTE: Currently ignored if autologin is enabled."));
--        Entry(EnableHiDPI,         bool,        true,                                           _S("Enable Qt's automatic high-DPI scaling"));
-+        Entry(EnableHiDPI,         bool,        false,                                          _S("Enable Qt's automatic high-DPI scaling"));
-         Entry(InputMethod,         QString,     QString(),                                      _S("Input method module"));
+diff -up sddm-0.15.0/src/common/Configuration.h.fedora_config sddm-0.15.0/src/common/Configuration.h
+--- sddm-0.15.0/src/common/Configuration.h.fedora_config	2017-09-04 16:51:02.957526180 -0500
++++ sddm-0.15.0/src/common/Configuration.h	2017-09-04 16:54:46.258819402 -0500
+@@ -46,7 +46,7 @@ namespace SDDM {
          //  Name   Entries (but it's a regular class again)
          Section(Theme,
              Entry(ThemeDir,            QString,     _S(DATA_INSTALL_DIR "/themes"),             _S("Theme directory path"));
@@ -16,25 +10,27 @@ diff -up sddm-0.14.0/src/common/Configuration.h.fedora_config sddm-0.14.0/src/co
              Entry(FacesDir,            QString,     _S(DATA_INSTALL_DIR "/faces"),              _S("Global directory for user avatars\n"
                                                                                                     "The files should be named <username>.face.icon"));
              Entry(CursorTheme,         QString,     QString(),                                  _S("Cursor theme used in the greeter"));
-@@ -65,21 +65,21 @@ namespace SDDM {
+@@ -64,10 +64,10 @@ namespace SDDM {
              Entry(XauthPath,           QString,     _S("/usr/bin/xauth"),                       _S("Path to xauth binary"));
              Entry(SessionDir,          QString,     _S("/usr/share/xsessions"),                 _S("Directory containing available X sessions"));
              Entry(SessionCommand,      QString,     _S(SESSION_COMMAND),                        _S("Path to a script to execute when starting the desktop session"));
 -	    Entry(SessionLogFile,      QString,     _S(".local/share/sddm/xorg-session.log"),   _S("Path to the user session log file"));
-+	    Entry(SessionLogFile,      QString,     _S(".cache/xsession-errors"),               _S("Path to the user session log file"));
++	    Entry(SessionLogFile,      QString,     _S(".cache/xsession-errors"),   _S("Path to the user session log file"));
  	    Entry(UserAuthFile,        QString,     _S(".Xauthority"),                          _S("Path to the Xauthority file"));
 -            Entry(DisplayCommand,      QString,     _S(DATA_INSTALL_DIR "/scripts/Xsetup"),     _S("Path to a script to execute when starting the display server"));
 -            Entry(DisplayStopCommand,  QString,     _S(DATA_INSTALL_DIR "/scripts/Xstop"),      _S("Path to a script to execute when stopping the display server"));
 +            Entry(DisplayCommand,      QString,     _S(SYS_CONFIG_DIR "/sddm/Xsetup"),          _S("Path to a script to execute when starting the display server"));
-+            Entry(DisplayStopCommand,  QString,     _S(SYS_CONFIG_DIR "/sddm/Xstop"),           _S("Path to a script to execute when stopping the display server"));
++            Entry(DisplayStopCommand,  QString,      _S(SYS_CONFIG_DIR "/sddm/Xstop"),          _S("Path to a script to execute when stopping the display server"));
              Entry(MinimumVT,           int,         MINIMUM_VT,                                 _S("The lowest virtual terminal number that will be used."));
+             Entry(EnableHiDPI,         bool,        false,                                      _S("Enable Qt's automatic high-DPI scaling"));
          );
- 
+@@ -75,12 +75,12 @@ namespace SDDM {
          Section(Wayland,
              Entry(SessionDir,          QString,     _S("/usr/share/wayland-sessions"),          _S("Directory containing available Wayland sessions"));
              Entry(SessionCommand,      QString,     _S(WAYLAND_SESSION_COMMAND),                _S("Path to a script to execute when starting the desktop session"));
 -	    Entry(SessionLogFile,      QString,     _S(".local/share/sddm/wayland-session.log"),_S("Path to the user session log file"));
 +	    Entry(SessionLogFile,      QString,     _S(".cache/wayland-errors"),                _S("Path to the user session log file"));
+             Entry(EnableHiDPI,         bool,        false,                                      _S("Enable Qt's automatic high-DPI scaling"));
          );
  
          Section(Users,
