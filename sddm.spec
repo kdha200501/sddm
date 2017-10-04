@@ -2,7 +2,7 @@
 
 Name:           sddm
 Version:        0.15.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 # code GPLv2+, fedora theme CC-BY-SA
 License:        GPLv2+ and CC-BY-SA
 Summary:        QML based X11 desktop manager
@@ -217,6 +217,9 @@ exit 0
 
 
 %changelog
+* Wed Oct 04 2017 Martin Bříza <mbriza@redhat.com> - 0.15.0-2
+- Fix a crash in the libXau patch (#1492371)
+
 * Mon Sep 04 2017 Rex Dieter <rdieter@fedoraproject.org> - 0.15.0-1
 - sddm-0.15.0 (#1487460)
 

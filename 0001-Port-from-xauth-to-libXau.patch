@@ -114,7 +114,7 @@ index 7656856..46e7452 100644
  
  #include <pwd.h>
  #include <unistd.h>
-@@ -87,28 +88,57 @@ namespace SDDM {
+@@ -87,28 +88,59 @@ namespace SDDM {
      }
  
      void XorgDisplayServer::addCookie(const QString &file) {
@@ -156,14 +156,16 @@ index 7656856..46e7452 100644
 +
 +        // open the file
 +        FILE *fp = fopen(qPrintable(file), "w");
-+        if (!fp)
++        if (!fp) {
 +            qWarning() << "Opening the Xauthority file at" << file << "failed";
++            return;
++        }
  
 -        // execute xauth
 -        FILE *fp = popen(qPrintable(cmd), "w");
 +        // write the Xauth data
 +        if (!XauWriteAuth (fp, &auth) || fflush (fp) == EOF) {
-+            qCritical() << "Writing the FamilyLocal information to" << file << "failed";
++            qWarning() << "Writing the FamilyLocal information to" << file << "failed";
 +            fclose(fp);
 +            return;
 +        }
@@ -173,7 +175,7 @@ index 7656856..46e7452 100644
 +        auth.family = FamilyWild;
 +
 +        if (!XauWriteAuth (fp, &auth) || fflush (fp) == EOF) {
-+            qCritical() << "Writing the FamilyWild information to" << file << "failed";
++            qWarning() << "Writing the FamilyWild information to" << file << "failed";
 +            fclose(fp);
              return;
 -        fprintf(fp, "remove %s\n", qPrintable(m_display));
