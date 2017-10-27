@@ -2,7 +2,7 @@
 
 Name:           sddm
 Version:        0.15.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 # code GPLv2+, fedora theme CC-BY-SA
 License:        GPLv2+ and CC-BY-SA
 Summary:        QML based X11 desktop manager
@@ -59,6 +59,8 @@ Obsoletes: kde-settings-sddm < 20-5
 
 %if 0%{?fedora}
 # for /usr/share/backgrounds/default.png
+BuildRequires: desktop-backgrounds-compat
+BuildRequires: GraphicsMagick
 Requires: desktop-backgrounds-compat
 # for /usr/share/pixmaps/system-logo-white.png
 Requires: system-logos
@@ -94,6 +96,15 @@ A collection of sddm themes, including: elarun, maldives, maya
 
 %patch101 -p1 -b .fedora_config
 %patch102 -p1 -b .libxau
+
+%if 0%{?fedora}
+#FIXME/TODO: use version on filesystem instead of using a bundled copy
+cp -v /usr/share/backgrounds/default.png  \
+      src/greeter/theme/background.png
+ls -sh src/greeter/theme/background.png
+gm mogrify -resize 1920x1200 src/greeter/theme/background.png
+ls -sh src/greeter/theme/background.png
+%endif
 
 
 %build
@@ -217,6 +228,9 @@ exit 0
 
 
 %changelog
+* Fri Oct 27 2017 Rex Dieter <rdieter@fedoraproject.org> - 0.15.0-3
+- use fedora wallpaper for fallback/maui theme
+
 * Wed Oct 04 2017 Martin Bříza <mbriza@redhat.com> - 0.15.0-2
 - Fix a crash in the libXau patch (#1492371)
 
