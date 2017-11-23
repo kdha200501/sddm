@@ -21,7 +21,7 @@ index 23e0383..abb9b7e 100644
  # XKB
  find_package(XKB REQUIRED)
  
-+# XKB
++# XAU
 +find_package(XAU REQUIRED)
 +
  # Qt 5
@@ -126,7 +126,7 @@ index 7656856..46e7452 100644
  
 -        // Touch file
 -        QFile file_handler(file);
--        file_handler.open(QIODevice::WriteOnly);
+-        file_handler.open(QIODevice::Append);
 -        file_handler.close();
 +        if (gethostname(localhost, HOST_NAME_MAX) < 0) {
 +            strcpy(localhost, "localhost");
@@ -193,13 +193,14 @@ diff --git a/src/helper/CMakeLists.txt b/src/helper/CMakeLists.txt
 index 8163d94..3e76577 100644
 --- a/src/helper/CMakeLists.txt
 +++ b/src/helper/CMakeLists.txt
-@@ -27,7 +27,10 @@ else()
+@@ -27,7 +27,11 @@ else()
  endif()
  
  add_executable(sddm-helper ${HELPER_SOURCES})
--target_link_libraries(sddm-helper Qt5::Network)
+-target_link_libraries(sddm-helper Qt5::Network Qt5::DBus)
 +target_link_libraries(sddm-helper
 +    Qt5::Network
++    Qt5::DBus
 +    ${LIBXAU_LIBRARIES}
 +)
  if(PAM_FOUND)
@@ -254,7 +255,7 @@ index 587888d..8690cb0 100644
              QDir().mkpath(finfo.absolutePath());
  
 -            QFile file_handler(file);
--            file_handler.open(QIODevice::WriteOnly);
+-            file_handler.open(QIODevice::Append);
 -            file_handler.close();
 +            // open the file
 +            FILE *fp = fopen(qPrintable(file), "w");

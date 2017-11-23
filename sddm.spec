@@ -1,8 +1,8 @@
 %global _hardened_build 1
 
 Name:           sddm
-Version:        0.15.0
-Release:        3%{?dist}
+Version:        0.16.0
+Release:        1%{?dist}
 # code GPLv2+, fedora theme CC-BY-SA
 License:        GPLv2+ and CC-BY-SA
 Summary:        QML based X11 desktop manager
@@ -228,6 +228,9 @@ exit 0
 
 
 %changelog
+* Thu Nov 23 2017 Martin Bříza <mbriza@redhat.com> - 0.16.0-1
+- sddm-0.16.0 (#1504466)
+
 * Fri Oct 27 2017 Rex Dieter <rdieter@fedoraproject.org> - 0.15.0-3
 - use fedora wallpaper for fallback/maui theme
 
