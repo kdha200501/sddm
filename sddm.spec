@@ -2,7 +2,7 @@
 
 Name:           sddm
 Version:        0.16.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 # code GPLv2+, fedora theme CC-BY-SA
 License:        GPLv2+ and CC-BY-SA
 Summary:        QML based X11 desktop manager
@@ -138,7 +138,7 @@ cp -a %{buildroot}%{_datadir}/sddm/scripts/* \
 rm -fv %{buildroot}%{_sysconfdir}/sddm/Xsession
 
 # install fedora theme
-%if 0%{?fedora}
+%if 0%{?fedora_theme}
 install -Dpm 644 %{SOURCE21} %{buildroot}%{_datadir}/sddm/themes/02-fedora/Main.qml
 install -Dpm 644 %{SOURCE22} %{buildroot}%{_datadir}/sddm/themes/02-fedora/metadata.desktop
 install -Dpm 644 %{SOURCE23} %{buildroot}%{_datadir}/sddm/themes/02-fedora/theme.conf
@@ -200,7 +200,7 @@ exit 0
 %{_datadir}/sddm/flags/
 %{_datadir}/sddm/scripts/
 %dir %{_datadir}/sddm/themes/
-%if 0%{?fedora}
+%if 0%{?fedora_theme}
 # default non-userlist fedora theme
 %{_datadir}/sddm/themes/02-fedora/
 %endif
@@ -211,16 +211,6 @@ exit 0
 %{_mandir}/man5/sddm.conf.5*
 %{_mandir}/man5/sddm-state.conf.5*
 
-%post themes
-# handle incompatible configuration changes
-(grep \
-   -e '^Current=circles$' \
-   %{_sysconfdir}/sddm.conf > /dev/null && \
- sed -i.rpmsave \
-   -e 's|^Current=circles$|#Current=01-breeze-fedora|' \
-   %{_sysconfdir}/sddm.conf
-) ||:
-
 %files themes
 %{_datadir}/sddm/themes/elarun/
 %{_datadir}/sddm/themes/maldives/
@@ -228,6 +218,10 @@ exit 0
 
 
 %changelog
+* Fri Dec 01 2017 Rex Dieter <rdieter@fedoraproject.org> - 0.16.0-2
+- omit 'fedora' theme (rely on fallback maui instead)
+- %%post themes: drop config hack, no longer needed
+
 * Thu Nov 23 2017 Martin Bříza <mbriza@redhat.com> - 0.16.0-1
 - sddm-0.16.0 (#1504466)
 
