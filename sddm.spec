@@ -34,10 +34,12 @@ Source14: sddm.conf
 Source15: README.scripts
 
 # fedora theme files
+%if 0%{?fedora_theme}
 Source21:       fedora-Main.qml
 Source22:       fedora-metadata.desktop
 Source23:       fedora-theme.conf
 Source24:       angle-down.png
+%endif
 
 Provides: service(graphical-login) = sddm
 
