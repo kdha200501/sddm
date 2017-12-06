@@ -1,8 +1,8 @@
 %global _hardened_build 1
 
 Name:           sddm
-Version:        0.16.0
-Release:        2%{?dist}
+Version:        0.17.0
+Release:        1%{?dist}
 # code GPLv2+, fedora theme CC-BY-SA
 License:        GPLv2+ and CC-BY-SA
 Summary:        QML based X11 desktop manager
@@ -18,7 +18,7 @@ Source0:        https://github.com/sddm/sddm/archive/v%{version}.tar.gz
 Patch54: https://github.com/sddm/sddm/pull/735.patch
 
 ## downstream patches
-Patch101:       sddm-0.15.0-fedora_config.patch
+Patch101:       sddm-0.17.0-fedora_config.patch
 
 Patch102:       0001-Port-from-xauth-to-libXau.patch
 
@@ -69,6 +69,8 @@ Requires: systemd
 Requires: xorg-x11-xinit
 %ifnarch s390 s390x
 Requires: xorg-x11-server-Xorg
+
+Recommends: qt5-qtvirtualkeyboard%{?_isa}
 %endif
 %{?systemd_requires}
 
@@ -218,6 +220,10 @@ exit 0
 
 
 %changelog
+* Wed Dec 06 2017 Rex Dieter <rdieter@fedoraproject.org> - 0.17.0-1
+- sddm-0.17.0, rebase patches
+- Recommends: qt5-qtvirtualkeyboard
+
 * Fri Dec 01 2017 Rex Dieter <rdieter@fedoraproject.org> - 0.16.0-2
 - omit 'fedora' theme (rely on fallback maui instead)
 - %%post themes: drop config hack, no longer needed
