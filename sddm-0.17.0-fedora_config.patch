@@ -1,6 +1,6 @@
-diff -up sddm-0.15.0/src/common/Configuration.h.fedora_config sddm-0.15.0/src/common/Configuration.h
---- sddm-0.15.0/src/common/Configuration.h.fedora_config	2017-09-04 16:51:02.957526180 -0500
-+++ sddm-0.15.0/src/common/Configuration.h	2017-09-04 16:54:46.258819402 -0500
+diff -up sddm-0.17.0/src/common/Configuration.h.fedora_config sddm-0.17.0/src/common/Configuration.h
+--- sddm-0.17.0/src/common/Configuration.h.fedora_config	2017-12-05 10:00:16.000000000 -0600
++++ sddm-0.17.0/src/common/Configuration.h	2017-12-05 16:14:04.887614387 -0600
 @@ -46,7 +46,7 @@ namespace SDDM {
          //  Name   Entries (but it's a regular class again)
          Section(Theme,
@@ -24,7 +24,7 @@ diff -up sddm-0.15.0/src/common/Configuration.h.fedora_config sddm-0.15.0/src/co
              Entry(MinimumVT,           int,         MINIMUM_VT,                                 _S("The lowest virtual terminal number that will be used."));
              Entry(EnableHiDPI,         bool,        false,                                      _S("Enable Qt's automatic high-DPI scaling"));
          );
-@@ -75,12 +75,12 @@ namespace SDDM {
+@@ -75,7 +75,7 @@ namespace SDDM {
          Section(Wayland,
              Entry(SessionDir,          QString,     _S("/usr/share/wayland-sessions"),          _S("Directory containing available Wayland sessions"));
              Entry(SessionCommand,      QString,     _S(WAYLAND_SESSION_COMMAND),                _S("Path to a script to execute when starting the desktop session"));
@@ -33,9 +33,3 @@ diff -up sddm-0.15.0/src/common/Configuration.h.fedora_config sddm-0.15.0/src/co
              Entry(EnableHiDPI,         bool,        false,                                      _S("Enable Qt's automatic high-DPI scaling"));
          );
  
-         Section(Users,
--            Entry(DefaultPath,         QString,     _S("/bin:/usr/bin:/usr/local/bin"),         _S("Default $PATH for logged in users"));
-+            Entry(DefaultPath,         QString,     _S("/usr/local/bin:/usr/bin:/bin"),         _S("Default $PATH for logged in users"));
-             Entry(MinimumUid,          int,         UID_MIN,                                    _S("Minimum user id for displayed users"));
-             Entry(MaximumUid,          int,         UID_MAX,                                    _S("Maximum user id for displayed users"));
-             Entry(HideUsers,           QStringList, QStringList(),                              _S("Comma-separated list of users that should not be listed"));
