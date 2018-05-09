@@ -2,7 +2,7 @@
 
 Name:           sddm
 Version:        0.17.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 # code GPLv2+, fedora theme CC-BY-SA
 License:        GPLv2+ and CC-BY-SA
 Summary:        QML based X11 desktop manager
@@ -72,7 +72,7 @@ Requires: xorg-x11-xinit
 %ifnarch s390 s390x
 Requires: xorg-x11-server-Xorg
 
-Recommends: qt5-qtvirtualkeyboard%{?_isa}
+Suggests: qt5-qtvirtualkeyboard%{?_isa}
 %endif
 %{?systemd_requires}
 
@@ -222,6 +222,9 @@ exit 0
 
 
 %changelog
+* Wed May 09 2018 Rex Dieter <rdieter@fedoraproject.org> - 0.17.0-3
+- Suggests: qt5-qtvirtualkeyboard
+
 * Fri Feb 09 2018 Fedora Release Engineering <releng@fedoraproject.org> - 0.17.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
