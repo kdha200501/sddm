@@ -2,7 +2,7 @@
 
 Name:           sddm
 Version:        0.17.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 # code GPLv2+, fedora theme CC-BY-SA
 License:        GPLv2+ and CC-BY-SA
 Summary:        QML based X11 desktop manager
@@ -11,7 +11,12 @@ Url:            https://github.com/sddm/sddm
 Source0:        https://github.com/sddm/sddm/archive/v%{version}.tar.gz
 
 ## upstream patches (in lookaside cache)
-#BuildRequires: git-core
+Patch4: 0004-Fix-race-between-sddm-and-logind.patch
+Patch8: 0008-Don-t-quit-on-SIGHUP.patch
+Patch9: 0009-Add-SOCK_CLOEXEC-to-signal-handling-sockets.patch
+Patch14: 0014-Bump-Qt-requirement-to-5.8.0.patch
+Patch33: 0033-XorgDisplayServer.cpp-Check-pipe-output-if-there-is-.patch
+Patch34: 0034-Fix-build-with-Qt-5.11-1024.patch
 
 ## upstreamable patches
 # Fixes RHBZ #1392654
@@ -95,6 +100,13 @@ A collection of sddm themes, including: elarun, maldives, maya
 
 %prep
 %setup -q
+
+%patch4 -p1 -b .0004
+%patch8 -p1 -b .0008
+%patch9 -p1 -b .0009
+%patch14 -p1 -b .0014
+%patch33 -p1 -b .0033
+%patch34 -p1 -b .0034
 
 %patch54 -p1 -b .0054
 
@@ -222,6 +234,9 @@ exit 0
 
 
 %changelog
+* Mon Jun 18 2018 Rex Dieter <rdieter@fedoraproject.org> - 0.17.0-4
+- pull in some upstream fixes
+
 * Wed May 09 2018 Rex Dieter <rdieter@fedoraproject.org> - 0.17.0-3
 - Suggests: qt5-qtvirtualkeyboard
 
