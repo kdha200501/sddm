@@ -2,7 +2,7 @@
 
 Name:           sddm
 Version:        0.17.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 # code GPLv2+, fedora theme CC-BY-SA
 License:        GPLv2+ and CC-BY-SA
 Summary:        QML based X11 desktop manager
@@ -234,6 +234,9 @@ exit 0
 
 
 %changelog
+* Sat Jul 14 2018 Fedora Release Engineering <releng@fedoraproject.org> - 0.17.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
+
 * Mon Jun 18 2018 Rex Dieter <rdieter@fedoraproject.org> - 0.17.0-4
 - pull in some upstream fixes
 
