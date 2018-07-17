@@ -2,7 +2,7 @@
 
 Name:           sddm
 Version:        0.17.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 # code GPLv2+, fedora theme CC-BY-SA
 License:        GPLv2+ and CC-BY-SA
 Summary:        QML based X11 desktop manager
@@ -54,7 +54,9 @@ BuildRequires:  libxcb-devel
 BuildRequires:  pam-devel
 BuildRequires:  pkgconfig(libsystemd)
 BuildRequires:  pkgconfig(systemd)
-BuildRequires:  python-docutils
+# sometimes python-docutils, sometimes python2-docutils, sometimes python3-docutils.
+# use path then for sanity
+BuildRequires:  /usr/bin/rst2man
 BuildRequires:  qt5-qtbase-devel >= 5.6
 BuildRequires:  qt5-qtdeclarative-devel >= 5.6
 BuildRequires:  qt5-qttools-devel >= 5.6
@@ -234,6 +236,9 @@ exit 0
 
 
 %changelog
+* Tue Jul 17 2018 Rex Dieter <rdieter@fedoraproject.org> - 0.17.0-6
+- BR: /usr/bin/rst2man
+
 * Sat Jul 14 2018 Fedora Release Engineering <releng@fedoraproject.org> - 0.17.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
