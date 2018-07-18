@@ -1,9 +1,1 @@
 /angle-down.png
-/v0.15.0.tar.gz
-/v0.17.0.tar.gz
-/0004-Fix-race-between-sddm-and-logind.patch
-/0008-Don-t-quit-on-SIGHUP.patch
-/0009-Add-SOCK_CLOEXEC-to-signal-handling-sockets.patch
-/0014-Bump-Qt-requirement-to-5.8.0.patch
-/0033-XorgDisplayServer.cpp-Check-pipe-output-if-there-is-.patch
-/0034-Fix-build-with-Qt-5.11-1024.patch

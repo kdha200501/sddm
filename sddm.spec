@@ -1,26 +1,19 @@
 %global _hardened_build 1
 
 Name:           sddm
-Version:        0.17.0
-Release:        6%{?dist}
-# code GPLv2+, fedora theme CC-BY-SA
-License:        GPLv2+ and CC-BY-SA
+Version:        0.18.0
+Release:        1%{?dist}
+License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
 Url:            https://github.com/sddm/sddm
 Source0:        https://github.com/sddm/sddm/archive/v%{version}.tar.gz
 
 ## upstream patches (in lookaside cache)
-Patch4: 0004-Fix-race-between-sddm-and-logind.patch
-Patch8: 0008-Don-t-quit-on-SIGHUP.patch
-Patch9: 0009-Add-SOCK_CLOEXEC-to-signal-handling-sockets.patch
-Patch14: 0014-Bump-Qt-requirement-to-5.8.0.patch
-Patch33: 0033-XorgDisplayServer.cpp-Check-pipe-output-if-there-is-.patch
-Patch34: 0034-Fix-build-with-Qt-5.11-1024.patch
 
 ## upstreamable patches
 # Fixes RHBZ #1392654
-Patch54: https://github.com/sddm/sddm/pull/735.patch
+#Patch54: https://github.com/sddm/sddm/pull/735.patch
 
 ## downstream patches
 Patch101:       sddm-0.17.0-fedora_config.patch
@@ -37,14 +30,6 @@ Source13:       tmpfiles-sddm.conf
 Source14: sddm.conf
 # README.scripts
 Source15: README.scripts
-
-# fedora theme files
-%if 0%{?fedora_theme}
-Source21:       fedora-Main.qml
-Source22:       fedora-metadata.desktop
-Source23:       fedora-theme.conf
-Source24:       angle-down.png
-%endif
 
 Provides: service(graphical-login) = sddm
 
@@ -103,14 +88,7 @@ A collection of sddm themes, including: elarun, maldives, maya
 %prep
 %setup -q
 
-%patch4 -p1 -b .0004
-%patch8 -p1 -b .0008
-%patch9 -p1 -b .0009
-%patch14 -p1 -b .0014
-%patch33 -p1 -b .0033
-%patch34 -p1 -b .0034
-
-%patch54 -p1 -b .0054
+#patch54 -p1 -b .0054
 
 %patch101 -p1 -b .fedora_config
 %patch102 -p1 -b .libxau
@@ -154,14 +132,6 @@ cp -a %{buildroot}%{_datadir}/sddm/scripts/* \
       %{buildroot}%{_sysconfdir}/sddm/
 # we're using /etc/X11/xinit/Xsession (by default) instead
 rm -fv %{buildroot}%{_sysconfdir}/sddm/Xsession
-
-# install fedora theme
-%if 0%{?fedora_theme}
-install -Dpm 644 %{SOURCE21} %{buildroot}%{_datadir}/sddm/themes/02-fedora/Main.qml
-install -Dpm 644 %{SOURCE22} %{buildroot}%{_datadir}/sddm/themes/02-fedora/metadata.desktop
-install -Dpm 644 %{SOURCE23} %{buildroot}%{_datadir}/sddm/themes/02-fedora/theme.conf
-install -Dpm 644 %{SOURCE24} %{buildroot}%{_datadir}/sddm/themes/02-fedora/angle-down.png
-%endif
 
 
 %pre
@@ -218,11 +188,7 @@ exit 0
 %{_datadir}/sddm/flags/
 %{_datadir}/sddm/scripts/
 %dir %{_datadir}/sddm/themes/
-%if 0%{?fedora_theme}
-# default non-userlist fedora theme
-%{_datadir}/sddm/themes/02-fedora/
-%endif
-# %%lang'ify ? -- rex
+# %%lang'ify? they're small, probably not worth it -- rex
 %{_datadir}/sddm/translations/
 %{_mandir}/man1/sddm.1*
 %{_mandir}/man1/sddm-greeter.1*
@@ -236,6 +202,12 @@ exit 0
 
 
 %changelog
+* Wed Jul 18 2018 Rex Dieter <rdieter@fedoraproject.org> - 0.18.0-1
+- sddm-0.18.0
+- rebase libXau patch (upstream pull request #863)
+- drop patch from upstream pull request #735
+- drop remnants of 02-fedora sddm theme
+
 * Tue Jul 17 2018 Rex Dieter <rdieter@fedoraproject.org> - 0.17.0-6
 - BR: /usr/bin/rst2man
 
