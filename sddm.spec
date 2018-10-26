@@ -2,7 +2,7 @@
 
 Name:           sddm
 Version:        0.18.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -202,6 +202,9 @@ exit 0
 
 
 %changelog
+* Fri Oct 26 2018 Rex Dieter <rdieter@fedoraproject.org> - 0.18.0-2
+- rebuild for f29 background
+
 * Wed Jul 18 2018 Rex Dieter <rdieter@fedoraproject.org> - 0.18.0-1
 - sddm-0.18.0
 - rebase libXau patch (upstream pull request #863)
