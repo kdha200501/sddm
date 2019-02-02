@@ -2,7 +2,7 @@
 
 Name:           sddm
 Version:        0.18.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -202,6 +202,9 @@ exit 0
 
 
 %changelog
+* Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.18.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
 * Fri Oct 26 2018 Rex Dieter <rdieter@fedoraproject.org> - 0.18.0-2
 - rebuild for f29 background
 
