@@ -2,7 +2,7 @@
 
 Name:           sddm
 Version:        0.18.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -10,6 +10,8 @@ Url:            https://github.com/sddm/sddm
 Source0:        https://github.com/sddm/sddm/archive/v%{version}.tar.gz
 
 ## upstream patches (in lookaside cache)
+# https://github.com/sddm/sddm/issues/1145
+Patch15:        0015-Use-C-scoping-for-handling-buffer-deletion.patch
 
 ## upstreamable patches
 # Fixes RHBZ #1392654
@@ -87,6 +89,8 @@ A collection of sddm themes, including: elarun, maldives, maya
 
 %prep
 %setup -q
+
+%patch15 -p1 -b .0015
 
 #patch54 -p1 -b .0054
 
@@ -202,6 +206,9 @@ exit 0
 
 
 %changelog
+* Wed Mar 13 2019 Rex Dieter <rdieter@fedoraproject.org> - 0.18.0-4
+- pull in upstream fix for https://github.com/sddm/sddm/issues/1145 (#1667171)
+
 * Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.18.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
