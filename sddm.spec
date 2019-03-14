@@ -2,7 +2,7 @@
 
 Name:           sddm
 Version:        0.18.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -22,6 +22,9 @@ Patch101:       sddm-0.17.0-fedora_config.patch
 
 Patch102:       0001-Port-from-xauth-to-libXau.patch
 
+# sddm.service: +EnvironmentFile=-/etc/sysconfig/sddm
+Patch103:       sddm-0.18.0-environment_file.patch
+
 # Shamelessly stolen from gdm
 Source11:       sddm.pam
 # Shamelessly stolen from gdm
@@ -32,6 +35,8 @@ Source13:       tmpfiles-sddm.conf
 Source14: sddm.conf
 # README.scripts
 Source15: README.scripts
+# sysconfig snippet
+Source16: sddm.sysconfig
 
 Provides: service(graphical-login) = sddm
 
@@ -96,6 +101,7 @@ A collection of sddm themes, including: elarun, maldives, maya
 
 %patch101 -p1 -b .fedora_config
 %patch102 -p1 -b .libxau
+%patch103 -p1 -b .environment_file
 
 %if 0%{?fedora}
 #FIXME/TODO: use version on filesystem instead of using a bundled copy
@@ -118,7 +124,7 @@ pushd %{_target_platform}
   -DWAYLAND_SESSION_COMMAND:PATH=/etc/sddm/wayland-session
 popd
 
-make %{?_smp_mflags} -C %{_target_platform}
+%make_build -C %{_target_platform}
 
 
 %install
@@ -129,6 +135,7 @@ install -Dpm 644 %{SOURCE12} %{buildroot}%{_sysconfdir}/pam.d/sddm-autologin
 install -Dpm 644 %{SOURCE13} %{buildroot}%{_tmpfilesdir}/sddm.conf
 install -Dpm 644 %{SOURCE14} %{buildroot}%{_sysconfdir}/sddm.conf
 install -Dpm 644 %{SOURCE15} %{buildroot}%{_datadir}/sddm/scripts/README.scripts
+install -Dpm 644 %{SOURCD16} %{buildroot}%{_sysconfdir}/sysconfig/sddm
 mkdir -p %{buildroot}%{_localstatedir}/run/sddm
 mkdir -p %{buildroot}%{_localstatedir}/lib/sddm
 mkdir -p %{buildroot}%{_sysconfdir}/sddm/
@@ -177,6 +184,7 @@ exit 0
 %config(noreplace)   %{_sysconfdir}/pam.d/sddm
 %config(noreplace)   %{_sysconfdir}/pam.d/sddm-autologin
 %config(noreplace)   %{_sysconfdir}/pam.d/sddm-greeter
+%config(noreplace) %{_sysconfdir}/sysconfig/sddm
 # it's under /etc, sure, but it's not a config file -- rex
 %{_sysconfdir}/dbus-1/system.d/org.freedesktop.DisplayManager.conf
 %{_bindir}/sddm
@@ -206,6 +214,10 @@ exit 0
 
 
 %changelog
+* Thu Mar 14 2019 Rex Dieter <rdieter@fedoraproject.org> - 0.18.0-5
+- sddm.service: EnvironmentFile=-/etc/sysconfig/sddm (#1686675)
+- %%build: use %%make_build
+
 * Wed Mar 13 2019 Rex Dieter <rdieter@fedoraproject.org> - 0.18.0-4
 - pull in upstream fix for https://github.com/sddm/sddm/issues/1145 (#1667171)
 
