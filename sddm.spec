@@ -135,7 +135,7 @@ install -Dpm 644 %{SOURCE12} %{buildroot}%{_sysconfdir}/pam.d/sddm-autologin
 install -Dpm 644 %{SOURCE13} %{buildroot}%{_tmpfilesdir}/sddm.conf
 install -Dpm 644 %{SOURCE14} %{buildroot}%{_sysconfdir}/sddm.conf
 install -Dpm 644 %{SOURCE15} %{buildroot}%{_datadir}/sddm/scripts/README.scripts
-install -Dpm 644 %{SOURCD16} %{buildroot}%{_sysconfdir}/sysconfig/sddm
+install -Dpm 644 %{SOURCE16} %{buildroot}%{_sysconfdir}/sysconfig/sddm
 mkdir -p %{buildroot}%{_localstatedir}/run/sddm
 mkdir -p %{buildroot}%{_localstatedir}/lib/sddm
 mkdir -p %{buildroot}%{_sysconfdir}/sddm/
