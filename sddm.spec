@@ -2,7 +2,7 @@
 
 Name:           sddm
 Version:        0.18.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -214,6 +214,9 @@ exit 0
 
 
 %changelog
+* Fri Mar 15 2019 Rex Dieter <rdieter@fedoraproject.org> 0.18.0-6
+- rebuild
+
 * Thu Mar 14 2019 Rex Dieter <rdieter@fedoraproject.org> - 0.18.0-5
 - sddm.service: EnvironmentFile=-/etc/sysconfig/sddm (#1686675)
 - %%build: use %%make_build
