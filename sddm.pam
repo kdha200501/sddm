@@ -19,6 +19,6 @@ session     optional      pam_keyinit.so force revoke
 session     required      pam_namespace.so
 session     include       password-auth
 -session     optional      pam_gnome_keyring.so auto_start
--session     optional      pam_kwallet5.so
--session     optional      pam_kwallet.so
+-session     optional      pam_kwallet5.so auto_start
+-session     optional      pam_kwallet.so auto_start
 session     include       postlogin

@@ -2,7 +2,7 @@
 
 Name:           sddm
 Version:        0.18.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -210,6 +210,9 @@ exit 0
 
 
 %changelog
+* Fri May 03 2019 Rex Dieter <rdieter@fedoraproject.org> - 0.18.1-2
+- consistently use auto_start in pam config (#1706029)
+
 * Mon Apr 01 2019 Rex Dieter <rdieter@fedoraproject.org> - 0.18.1-1
 - 0.18.1
 
