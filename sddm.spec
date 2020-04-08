@@ -2,7 +2,7 @@
 
 Name:           sddm
 Version:        0.18.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -210,6 +210,9 @@ exit 0
 
 
 %changelog
+* Wed Apr 08 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.18.1-5
+- remove pam_console dependency (#182218)
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
