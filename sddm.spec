@@ -2,7 +2,7 @@
 
 Name:           sddm
 Version:        0.18.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -10,6 +10,7 @@ Url:            https://github.com/sddm/sddm
 Source0:        https://github.com/sddm/sddm/archive/v%{version}.tar.gz
 
 ## upstream patches (in lookaside cache)
+Patch35: 0035-Prevent-duplicate-session-name.patch
 
 ## upstreamable patches
 # Fixes RHBZ #1392654
@@ -92,6 +93,8 @@ A collection of sddm themes, including: elarun, maldives, maya
 
 %prep
 %setup -q
+
+%patch35 -p1 -b 0035
 
 #patch54 -p1 -b .0054
 
@@ -210,6 +213,9 @@ exit 0
 
 
 %changelog
+* Fri Jun 26 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.18.1-6
+- pull in upstream fix for duplicate session name
+
 * Wed Apr 08 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.18.1-5
 - remove pam_console dependency (#182218)
 

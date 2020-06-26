@@ -2,3 +2,4 @@
 /v0.18.0.tar.gz
 /0015-Use-C-scoping-for-handling-buffer-deletion.patch
 /v0.18.1.tar.gz
+/0035-Prevent-duplicate-session-name.patch
