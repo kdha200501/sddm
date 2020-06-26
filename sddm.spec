@@ -11,6 +11,7 @@ Source0:        https://github.com/sddm/sddm/archive/v%{version}.tar.gz
 
 ## upstream patches (in lookaside cache)
 Patch35: 0035-Prevent-duplicate-session-name.patch
+Patch37: 0037-Fix-build.patch
 
 ## upstreamable patches
 # Fixes RHBZ #1392654
@@ -94,7 +95,8 @@ A collection of sddm themes, including: elarun, maldives, maya
 %prep
 %setup -q
 
-%patch35 -p1 -b 0035
+%patch35 -p1 -b .0035
+%patch37 -p1 -b .0037
 
 #patch54 -p1 -b .0054
 
