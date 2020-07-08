@@ -1,4 +1,4 @@
-%global _hardened_build 1
+%undefine __cmake_in_source_build
 
 Name:           sddm
 Version:        0.18.1
@@ -115,21 +115,17 @@ ls -sh src/greeter/theme/background.png
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake} .. \
+%{cmake} \
   -DBUILD_MAN_PAGES:BOOL=ON \
   -DCMAKE_BUILD_TYPE:STRING="Release" \
   -DENABLE_JOURNALD:BOOL=ON \
   -DSESSION_COMMAND:PATH=/etc/X11/xinit/Xsession \
   -DWAYLAND_SESSION_COMMAND:PATH=/etc/sddm/wayland-session
-popd
-
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 install -Dpm 644 %{SOURCE11} %{buildroot}%{_sysconfdir}/pam.d/sddm
 install -Dpm 644 %{SOURCE12} %{buildroot}%{_sysconfdir}/pam.d/sddm-autologin
