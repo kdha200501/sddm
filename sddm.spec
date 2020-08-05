@@ -2,7 +2,7 @@
 
 Name:           sddm
 Version:        0.18.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -211,6 +211,9 @@ exit 0
 
 
 %changelog
+* Wed Aug 05 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.18.1-8
+- tmpfiles: use /run instead of /var/run
+
 * Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18.1-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 
