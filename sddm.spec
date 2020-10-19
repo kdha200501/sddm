@@ -25,6 +25,7 @@ Patch37: 0037-Fix-build.patch
 #Patch54: https://github.com/sddm/sddm/pull/735.patch
 
 # Prefer Wayland sessions by default
+# https://github.com/sddm/sddm/pull/1305
 Patch55: https://github.com/sddm/sddm/pull/1305.patch
 
 ## downstream patches
