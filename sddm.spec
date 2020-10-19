@@ -1,8 +1,15 @@
 %undefine __cmake_in_source_build
 
+# Control wayland by default
+%if (0%{?fedora} && 0%{?fedora} < 34) || (0%{?rhel} && 0%{?rhel} < 9)
+%bcond_with wayland_default
+%else
+%bcond_without wayland_default
+%endif
+
 Name:           sddm
 Version:        0.18.1
-Release:        8%{?dist}
+Release:        9%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -16,6 +23,9 @@ Patch37: 0037-Fix-build.patch
 ## upstreamable patches
 # Fixes RHBZ #1392654
 #Patch54: https://github.com/sddm/sddm/pull/735.patch
+
+# Prefer Wayland sessions by default
+Patch55: https://github.com/sddm/sddm/pull/1305.patch
 
 ## downstream patches
 Patch101:       sddm-0.17.0-fedora_config.patch
@@ -99,6 +109,9 @@ A collection of sddm themes, including: elarun, maldives, maya
 %patch37 -p1 -b .0037
 
 #patch54 -p1 -b .0054
+%if %{with wayland_default}
+%patch55 -p1 -b .0055
+%endif
 
 %patch101 -p1 -b .fedora_config
 %patch102 -p1 -b .libxau
@@ -164,6 +177,16 @@ exit 0
    %{_sysconfdir}/sddm.conf
 ) ||:
 
+%if %{with wayland_default}
+%triggerun -- plasma-workspace < 5.19.90-2
+# When upgrading, handle session filename changes
+if [ -f %{_sharedstatedir}/sddm/state.conf ]; then
+   sed \
+       -e "s|%{_datadir}/xsessions/plasma.desktop|%{_datadir}/xsessions/plasmaxorg.desktop|g" \
+       -e "s|%{_datadir}/wayland-sessions/plasmawayland.desktop|%{_datadir}/wayland-sessions/plasma.desktop|g" \
+       -i %{_sharedstatedir}/sddm/state.conf
+fi
+%endif
 
 %preun
 %systemd_preun sddm.service
@@ -211,6 +234,10 @@ exit 0
 
 
 %changelog
+* Sun Oct 18 2020 Neal Gompa <ngompa13@gmail.com> - 0.18.1-9
+- Add patch to prefer Wayland sessions on F34+
+- Correctly handle Plasma session filename changes on upgrade to F34+
+
 * Wed Aug 05 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.18.1-8
 - tmpfiles: use /run instead of /var/run
 
