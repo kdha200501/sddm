@@ -8,30 +8,26 @@
 %endif
 
 Name:           sddm
-Version:        0.18.1
-Release:        9%{?dist}
+Version:        0.19.0
+Release:        1%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
 Url:            https://github.com/sddm/sddm
-Source0:        https://github.com/sddm/sddm/archive/v%{version}.tar.gz
+Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 
-## upstream patches (in lookaside cache)
-Patch35: 0035-Prevent-duplicate-session-name.patch
-Patch37: 0037-Fix-build.patch
+## upstream patches
 
 ## upstreamable patches
-# Fixes RHBZ #1392654
-#Patch54: https://github.com/sddm/sddm/pull/735.patch
 
-# Prefer Wayland sessions by default
-# https://github.com/sddm/sddm/pull/1305
-Patch55: https://github.com/sddm/sddm/pull/1305.patch
+# From: https://github.com/sddm/sddm/pull/997
+Patch051:       0001-Remove-suffix-for-Wayland-session.patch
+
+# From: https://github.com/sddm/sddm/pull/1230
+Patch052:       0001-Redesign-Xauth-handling.patch
 
 ## downstream patches
-Patch101:       sddm-0.17.0-fedora_config.patch
-
-Patch102:       0001-Port-from-xauth-to-libXau.patch
+Patch101:       sddm-0.19.0-fedora_config.patch
 
 # sddm.service: +EnvironmentFile=-/etc/sysconfig/sddm
 Patch103:       sddm-0.18.0-environment_file.patch
@@ -104,19 +100,7 @@ A collection of sddm themes, including: elarun, maldives, maya
 
 
 %prep
-%setup -q
-
-%patch35 -p1 -b .0035
-%patch37 -p1 -b .0037
-
-#patch54 -p1 -b .0054
-%if %{with wayland_default}
-%patch55 -p1 -b .0055
-%endif
-
-%patch101 -p1 -b .fedora_config
-%patch102 -p1 -b .libxau
-%patch103 -p1 -b .environment_file
+%autosetup -p1
 
 %if 0%{?fedora}
 #FIXME/TODO: use version on filesystem instead of using a bundled copy
@@ -196,8 +180,7 @@ fi
 %systemd_postun sddm.service
 
 %files
-%{!?_licensedir:%global license %%doc}
-%license LICENSE 
+%license LICENSE
 %doc README.md CONTRIBUTORS
 %dir %{_sysconfdir}/sddm/
 %config(noreplace)   %{_sysconfdir}/sddm/*
@@ -235,6 +218,10 @@ fi
 
 
 %changelog
+* Tue Nov 10 2020 Neal Gompa <ngompa13@gmail.com> - 0.19.0-1
+- Rebase to version 0.19.0
+- Refresh patch set and drop upstreamed patches
+
 * Sun Oct 18 2020 Neal Gompa <ngompa13@gmail.com> - 0.18.1-9
 - Add patch to prefer Wayland sessions on F34+
 - Correctly handle Plasma session filename changes on upgrade to F34+
