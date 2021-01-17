@@ -1,0 +1,81 @@
+From 12d96497e9e60645b21bbe7b48eb160185c41ee5 Mon Sep 17 00:00:00 2001
+From: Neal Gompa <ngompa13@gmail.com>
+Date: Sun, 17 Jan 2021 11:35:11 -0500
+Subject: [PATCH] wayland-session: Ensure $SHELL remains correctly set
+
+In some circumstances, the effort of setting the environment
+correctly can wind up clobbering the user-specified shell. To
+work around this issue, capture the shell setting in a variable
+and set it back at the end of environment and profile setup.
+---
+ data/scripts/wayland-session | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/data/scripts/wayland-session b/data/scripts/wayland-session
+index de4f519..11f8490 100755
+--- a/data/scripts/wayland-session
++++ b/data/scripts/wayland-session
+@@ -8,6 +8,8 @@
+ # Note that the respective logout scripts are not sourced.
+ case $SHELL in
+   */bash)
++    # Backup the user shell setting into SDDM specific variable
++    SDDM_USER_SHELL=$SHELL
+     [ -z "$BASH" ] && exec $SHELL $0 "$@"
+     set +o posix
+     [ -f /etc/profile ] && . /etc/profile
+@@ -18,8 +20,12 @@ case $SHELL in
+     elif [ -f $HOME/.profile ]; then
+       . $HOME/.profile
+     fi
++    # Restore user shell setting that may have been clobbered by setting environment
++    export SHELL=$SDDM_USER_SHELL
+     ;;
+ */zsh)
++    # Backup the user shell setting into SDDM specific variable
++    SDDM_USER_SHELL=$SHELL
+     [ -z "$ZSH_NAME" ] && exec $SHELL $0 "$@"
+     [ -d /etc/zsh ] && zdir=/etc/zsh || zdir=/etc
+     zhome=${ZDOTDIR:-$HOME}
+@@ -29,24 +35,38 @@ case $SHELL in
+     [ -f $zdir/zlogin ] && . $zdir/zlogin
+     [ -f $zhome/.zlogin ] && . $zhome/.zlogin
+     emulate -R sh
++    # Restore user shell setting that may have been clobbered by setting environment
++    export SHELL=$SDDM_USER_SHELL
+     ;;
+   */csh|*/tcsh)
++    # Backup the user shell setting into SDDM specific variable
++    SDDM_USER_SHELL=$SHELL
+     # [t]cshrc is always sourced automatically.
+     # Note that sourcing csh.login after .cshrc is non-standard.
+     wlsess_tmp=`mktemp /tmp/wlsess-env-XXXXXX`
+     $SHELL -c "if (-f /etc/csh.login) source /etc/csh.login; if (-f ~/.login) source ~/.login; /bin/sh -c 'export -p' >! $wlsess_tmp"
+     . $wlsess_tmp
+     rm -f $wlsess_tmp
++    # Restore user shell setting that may have been clobbered by setting environment
++    export SHELL=$SDDM_USER_SHELL
+     ;;
+   */fish)
++    # Backup the user shell setting into SDDM specific variable
++    SDDM_USER_SHELL=$SHELL
+     xsess_tmp=`mktemp /tmp/xsess-env-XXXXXX`
+     $SHELL --login -c "/bin/sh -c 'export -p' > $xsess_tmp"
+     . $xsess_tmp
+     rm -f $xsess_tmp
++    # Restore user shell setting that may have been clobbered by setting environment
++    export SHELL=$SDDM_USER_SHELL
+     ;;
+   *) # Plain sh, ksh, and anything we do not know.
++    # Backup the user shell setting into SDDM specific variable
++    SDDM_USER_SHELL=$SHELL
+     [ -f /etc/profile ] && . /etc/profile
+     [ -f $HOME/.profile ] && . $HOME/.profile
++    # Restore user shell setting that may have been clobbered by setting environment
++    export SHELL=$SDDM_USER_SHELL
+     ;;
+ esac
+ 
+-- 
+2.29.2
+

@@ -9,7 +9,7 @@
 
 Name:           sddm
 Version:        0.19.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -25,6 +25,9 @@ Patch051:       0001-Remove-suffix-for-Wayland-session.patch
 
 # From: https://github.com/sddm/sddm/pull/1230
 Patch052:       0001-Redesign-Xauth-handling.patch
+
+# From: https://github.com/sddm/sddm/pull/1360
+Patch053:       0001-wayland-session-Ensure-SHELL-remains-correctly-set.patch
 
 ## downstream patches
 Patch101:       sddm-0.19.0-fedora_config.patch
@@ -218,6 +221,9 @@ fi
 
 
 %changelog
+* Sun Jan 17 2021 Neal Gompa <ngompa13@gmail.com> - 0.19.0-2
+- Add fix proposed upstream to fix SHELL setting in Wayland sessions
+
 * Tue Nov 10 2020 Neal Gompa <ngompa13@gmail.com> - 0.19.0-1
 - Rebase to version 0.19.0
 - Refresh patch set and drop upstreamed patches
