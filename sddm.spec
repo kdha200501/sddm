@@ -9,7 +9,7 @@
 
 Name:           sddm
 Version:        0.19.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -166,11 +166,12 @@ exit 0
 ) ||:
 
 %if %{with wayland_default}
-%triggerun -- plasma-workspace < 5.19.90-2
+%triggerun -- plasma-workspace < 5.20.90-2
 # When upgrading, handle session filename changes
 if [ -f %{_sharedstatedir}/sddm/state.conf ]; then
    sed \
-       -e "s|%{_datadir}/xsessions/plasma.desktop|%{_datadir}/xsessions/plasmaxorg.desktop|g" \
+       -e "s|%{_datadir}/xsessions/plasma.desktop|%{_datadir}/xsessions/plasmax11.desktop|g" \
+       -e "s|%{_datadir}/xsessions/plasmaxorg.desktop|%{_datadir}/xsessions/plasmax11.desktop|g" \
        -e "s|%{_datadir}/wayland-sessions/plasmawayland.desktop|%{_datadir}/wayland-sessions/plasma.desktop|g" \
        -i %{_sharedstatedir}/sddm/state.conf
 fi
@@ -221,6 +222,9 @@ fi
 
 
 %changelog
+* Fri Jan 22 2021 Neal Gompa <ngompa13@gmail.com> - 0.19.0-3
+- Adjust sddm state file trigger for plasma-workspace 5.20.90-2
+
 * Sun Jan 17 2021 Neal Gompa <ngompa13@gmail.com> - 0.19.0-2
 - Add fix proposed upstream to fix SHELL setting in Wayland sessions
 
