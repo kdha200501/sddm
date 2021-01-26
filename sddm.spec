@@ -9,7 +9,7 @@
 
 Name:           sddm
 Version:        0.19.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -116,12 +116,13 @@ ls -sh src/greeter/theme/background.png
 
 
 %build
-%{cmake} \
+%cmake \
   -DBUILD_MAN_PAGES:BOOL=ON \
   -DCMAKE_BUILD_TYPE:STRING="Release" \
   -DENABLE_JOURNALD:BOOL=ON \
   -DSESSION_COMMAND:PATH=/etc/X11/xinit/Xsession \
   -DWAYLAND_SESSION_COMMAND:PATH=/etc/sddm/wayland-session
+
 %cmake_build
 
 
@@ -222,6 +223,10 @@ fi
 
 
 %changelog
+* Tue Jan 26 2021 Rex Dieter <rdieter@fedoraproject.org> - 0.19.0-4
+- Refresh Xauth patch from upstream PR
+- minor .spec cosmetics
+
 * Fri Jan 22 2021 Neal Gompa <ngompa13@gmail.com> - 0.19.0-3
 - Adjust sddm state file trigger for plasma-workspace 5.20.90-2
 
