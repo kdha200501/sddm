@@ -9,7 +9,7 @@
 
 Name:           sddm
 Version:        0.19.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -18,6 +18,9 @@ Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 
 ## upstream patches
 
+Patch16: 0016-Fix-sessions-being-started-as-the-wrong-type-on-auto.patch
+Patch18: 0018-wayland-session-Ensure-SHELL-remains-correctly-set.patch
+
 ## upstreamable patches
 
 # From: https://github.com/sddm/sddm/pull/997
@@ -25,9 +28,6 @@ Patch051:       0001-Remove-suffix-for-Wayland-session.patch
 
 # From: https://github.com/sddm/sddm/pull/1230
 Patch052:       0001-Redesign-Xauth-handling.patch
-
-# From: https://github.com/sddm/sddm/pull/1360
-Patch053:       0001-wayland-session-Ensure-SHELL-remains-correctly-set.patch
 
 ## downstream patches
 Patch101:       sddm-0.19.0-fedora_config.patch
@@ -223,6 +223,9 @@ fi
 
 
 %changelog
+* Thu Jan 28 2021 Rex Dieter <rdieter@fedoraproject.org> - 0.19.0-5
+- pull in upstream fix for autologin (sddm issue #1348)
+
 * Tue Jan 26 2021 Rex Dieter <rdieter@fedoraproject.org> - 0.19.0-4
 - Refresh Xauth patch from upstream PR
 - minor .spec cosmetics
