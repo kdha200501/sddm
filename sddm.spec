@@ -9,7 +9,7 @@
 
 Name:           sddm
 Version:        0.19.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -225,6 +225,9 @@ fi
 
 
 %changelog
+* Wed Feb 03 2021 Rex Dieter <rdieter@fedoraproject.org> - 0.19.0-7
+- adjust perms on /run/sddm to future-proof xauth handling (#1922772)
+
 * Mon Feb 01 2021 Rex Dieter <rdieter@fedoraproject.org> - 0.19.0-6
 - revert to older Redesign-Xauth-handling.patch (#1922772)
 
