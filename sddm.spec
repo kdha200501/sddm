@@ -64,6 +64,8 @@ Source15: README.scripts
 Source16: sddm.sysconfig
 # udev rules for disabling plasma-wayland in broken scenarios
 Source17: 61-sddm-plasmawayland.rules
+# systemd sysusers config
+Source18:  sddm-systemd-sysusers.conf
 
 Provides: service(graphical-login) = sddm
 
@@ -82,6 +84,7 @@ BuildRequires:  qt5-qttools-devel >= 5.6
 # verify presence to pull defaults from /etc/login.defs
 BuildRequires:  shadow-utils
 BuildRequires:  systemd
+BuildRequires:  systemd-rpm-macros
 
 Obsoletes: kde-settings-sddm < 20-5
 
@@ -153,6 +156,7 @@ install -Dpm 644 %{SOURCE13} %{buildroot}%{_tmpfilesdir}/sddm.conf
 install -Dpm 644 %{SOURCE14} %{buildroot}%{_sysconfdir}/sddm.conf
 install -Dpm 644 %{SOURCE15} %{buildroot}%{_datadir}/sddm/scripts/README.scripts
 install -Dpm 644 %{SOURCE16} %{buildroot}%{_sysconfdir}/sysconfig/sddm
+install -Dpm 644 %{SOURCE17} %{buildroot}%{_sysusersdir}/sddm.conf
 mkdir -p %{buildroot}/run/sddm
 mkdir -p %{buildroot}%{_localstatedir}/lib/sddm
 mkdir -p %{buildroot}%{_sysconfdir}/sddm/
@@ -168,11 +172,7 @@ install -Dpm 644 %{SOURCE17} %{buildroot}%{_udevrulesdir}/61-sddm-plasmawayland.
 touch %{buildroot}%{_sysconfdir}/sddm/hide-wayland-sessions
 
 %pre
-getent group sddm >/dev/null || groupadd -r sddm
-getent passwd sddm >/dev/null || \
-    useradd -r -g sddm -d %{_localstatedir}/lib/sddm -s /sbin/nologin \
-    -c "Simple Desktop Display Manager" sddm
-exit 0
+%sysusers_create_compat %{SOURCE18}
 
 %post
 %systemd_post sddm.service
@@ -236,6 +236,7 @@ fi
 %{_tmpfilesdir}/sddm.conf
 %{_udevrulesdir}/61-sddm-plasmawayland.rules
 %ghost %{_sysconfdir}/sddm/hide-wayland-sessions
+%{_sysusersdir}/sddm.conf
 %attr(0711, root, sddm) %dir /run/sddm
 %attr(1770, sddm, sddm) %dir %{_localstatedir}/lib/sddm
 %{_unitdir}/sddm.service
