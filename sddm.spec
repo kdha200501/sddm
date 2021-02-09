@@ -153,7 +153,7 @@ install -Dpm 644 %{SOURCE13} %{buildroot}%{_tmpfilesdir}/sddm.conf
 install -Dpm 644 %{SOURCE14} %{buildroot}%{_sysconfdir}/sddm.conf
 install -Dpm 644 %{SOURCE15} %{buildroot}%{_datadir}/sddm/scripts/README.scripts
 install -Dpm 644 %{SOURCE16} %{buildroot}%{_sysconfdir}/sysconfig/sddm
-mkdir -p %{buildroot}%{_localstatedir}/run/sddm
+mkdir -p %{buildroot}/run/sddm
 mkdir -p %{buildroot}%{_localstatedir}/lib/sddm
 mkdir -p %{buildroot}%{_sysconfdir}/sddm/
 cp -a %{buildroot}%{_datadir}/sddm/scripts/* \
@@ -236,7 +236,7 @@ fi
 %{_tmpfilesdir}/sddm.conf
 %{_udevrulesdir}/61-sddm-plasmawayland.rules
 %ghost %{_sysconfdir}/sddm/hide-wayland-sessions
-%attr(0711, root, sddm) %dir %{_localstatedir}/run/sddm
+%attr(0711, root, sddm) %dir /run/sddm
 %attr(1770, sddm, sddm) %dir %{_localstatedir}/lib/sddm
 %{_unitdir}/sddm.service
 %{_qt5_archdatadir}/qml/SddmComponents/
