@@ -9,7 +9,7 @@
 
 Name:           sddm
 Version:        0.19.0
-Release:        7%{?dist}
+Release:        8%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -178,6 +178,16 @@ if [ -f %{_sharedstatedir}/sddm/state.conf ]; then
        -e "s|%{_datadir}/wayland-sessions/plasmawayland.desktop|%{_datadir}/wayland-sessions/plasma.desktop|g" \
        -i %{_sharedstatedir}/sddm/state.conf
 fi
+
+%triggerun -- fedora-release < 34
+# When upgrading to Fedora 34, transition to Plasma Wayland by default
+if [ -f %{_sharedstatedir}/sddm/state.conf ]; then
+   sed \
+       -e "s|%{_datadir}/xsessions/plasma.desktop|%{_datadir}/wayland-sessions/plasma.desktop|g" \
+       -e "s|%{_datadir}/xsessions/plasmax11.desktop|%{_datadir}/wayland-sessions/plasma.desktop|g" \
+       -e "s|%{_datadir}/wayland-sessions/plasmawayland.desktop|%{_datadir}/wayland-sessions/plasma.desktop|g" \
+       -i %{_sharedstatedir}/sddm/state.conf
+fi
 %endif
 
 %preun
@@ -225,6 +235,9 @@ fi
 
 
 %changelog
+* Sun Feb 28 2021 Neal Gompa <ngompa13@gmail.com> - 0.19.0-8
+- Add trigger to auto-transition to Wayland session on upgrade to F34
+
 * Wed Feb 03 2021 Rex Dieter <rdieter@fedoraproject.org> - 0.19.0-7
 - adjust perms on /run/sddm to 1733 to future-proof xauth handling (#1922772)
 
