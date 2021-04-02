@@ -9,7 +9,7 @@
 
 Name:           sddm
 Version:        0.19.0
-Release:        8%{?dist}
+Release:        9%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -131,6 +131,7 @@ ls -sh src/greeter/theme/background.png
 %install
 %cmake_install
 
+mkdir -p %{buildroot}%{_sysconfdir}/sddm.conf.d
 install -Dpm 644 %{SOURCE11} %{buildroot}%{_sysconfdir}/pam.d/sddm
 install -Dpm 644 %{SOURCE12} %{buildroot}%{_sysconfdir}/pam.d/sddm-autologin
 install -Dpm 644 %{SOURCE13} %{buildroot}%{_tmpfilesdir}/sddm.conf
@@ -200,6 +201,7 @@ fi
 %license LICENSE
 %doc README.md CONTRIBUTORS
 %dir %{_sysconfdir}/sddm/
+%dir %{_sysconfdir}/sddm.conf.d
 %config(noreplace)   %{_sysconfdir}/sddm/*
 %config(noreplace)   %{_sysconfdir}/sddm.conf
 %config(noreplace)   %{_sysconfdir}/pam.d/sddm
@@ -235,6 +237,9 @@ fi
 
 
 %changelog
+* Fri Apr 02 2021 Rex Dieter <rdieter@fedoraproject.org> - 0.19.0-9
+- initial support for sddm.conf.d snippets
+
 * Sun Feb 28 2021 Neal Gompa <ngompa13@gmail.com> - 0.19.0-8
 - Add trigger to auto-transition to Wayland session on upgrade to F34
 
