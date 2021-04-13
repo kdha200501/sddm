@@ -31,12 +31,14 @@ Patch052:       0001-Redesign-Xauth-handling.patch
 # newer(?) pristine one from upstream PR has xauth locking issues wrt RUNTIME_DIR
 #Patch52:       0001-Redesign-Xauth-handling-1.patch
 
-# First two commits from:
+# https://github.com/sddm/sddm/commit/42c5176 plus the first two
+# commits from:
 # https://github.com/sddm/sddm/pull/1371
 # Fixes several (but not all) issues with session switching:
 # https://bugzilla.redhat.com/show_bug.cgi?id=1929643
 Patch053:       0001-Retry-starting-the-display-server.patch
-Patch054:       308fd0df2583b02251f0d80c397ccbf9fa7a9e04.patch
+Patch054:       3c92e9206dc2e17fa5dc13f37be2926e9131ce94.patch
+Patch055:       308fd0df2583b02251f0d80c397ccbf9fa7a9e04.patch
 
 ## downstream patches
 Patch101:       sddm-0.19.0-fedora_config.patch

@@ -67,7 +67,7 @@ index cf44a629..b7987198 100644
 --- a/src/common/Configuration.h
 +++ b/src/common/Configuration.h
 @@ -70,7 +70,6 @@ namespace SDDM {
- 	    Entry(UserAuthFile,        QString,     _S(".Xauthority"),                          _S("Path to the Xauthority file"));
+ 	    Entry(SessionLogFile,      QString,     _S(".local/share/sddm/xorg-session.log"),   _S("Path to the user session log file"));
              Entry(DisplayCommand,      QString,     _S(DATA_INSTALL_DIR "/scripts/Xsetup"),     _S("Path to a script to execute when starting the display server"));
              Entry(DisplayStopCommand,  QString,     _S(DATA_INSTALL_DIR "/scripts/Xstop"),      _S("Path to a script to execute when stopping the display server"));
 -            Entry(MinimumVT,           int,         MINIMUM_VT,                                 _S("The lowest virtual terminal number that will be used."));
