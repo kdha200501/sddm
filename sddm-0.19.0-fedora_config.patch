@@ -21,9 +21,9 @@ index a7e0585..36cf9d0 100644
 +	    Entry(SessionLogFile,      QString,     _S(".cache/xsession-errors"),               _S("Path to the user session log file"));
 +            Entry(DisplayCommand,      QString,     _S(SYS_CONFIG_DIR "/sddm/Xsetup"),          _S("Path to a script to execute when starting the display server"));
 +            Entry(DisplayStopCommand,  QString,     _S(SYS_CONFIG_DIR "/sddm/Xstop"),           _S("Path to a script to execute when stopping the display server"));
-             Entry(MinimumVT,           int,         MINIMUM_VT,                                 _S("The lowest virtual terminal number that will be used."));
              Entry(EnableHiDPI,         bool,        false,                                      _S("Enable Qt's automatic high-DPI scaling"));
          );
+
 @@ -75,7 +75,7 @@ namespace SDDM {
          Section(Wayland,
              Entry(SessionDir,          QString,     _S("/usr/share/wayland-sessions"),          _S("Directory containing available Wayland sessions"));

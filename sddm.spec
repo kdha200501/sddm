@@ -9,7 +9,7 @@
 
 Name:           sddm
 Version:        0.19.0
-Release:        9%{?dist}
+Release:        10%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -30,6 +30,13 @@ Patch051:       0001-Remove-suffix-for-Wayland-session.patch
 Patch052:       0001-Redesign-Xauth-handling.patch
 # newer(?) pristine one from upstream PR has xauth locking issues wrt RUNTIME_DIR
 #Patch52:       0001-Redesign-Xauth-handling-1.patch
+
+# First two commits from:
+# https://github.com/sddm/sddm/pull/1371
+# Fixes several (but not all) issues with session switching:
+# https://bugzilla.redhat.com/show_bug.cgi?id=1929643
+Patch053:       0001-Retry-starting-the-display-server.patch
+Patch054:       308fd0df2583b02251f0d80c397ccbf9fa7a9e04.patch
 
 ## downstream patches
 Patch101:       sddm-0.19.0-fedora_config.patch
@@ -237,6 +244,9 @@ fi
 
 
 %changelog
+* Tue Apr 13 2021 Adam Williamson <awilliam@redhat.com> - 0.19.0-10
+- Backport part of PR #1371 to improve session switching (#1929643)
+
 * Fri Apr 02 2021 Rex Dieter <rdieter@fedoraproject.org> - 0.19.0-9
 - initial support for sddm.conf.d snippets
 
