@@ -1,0 +1,2 @@
+# disable Wayland if modesetting is disabled
+IMPORT{cmdline}="nomodeset", RUN+="/usr/libexec/sddm-disable-plasmawayland"

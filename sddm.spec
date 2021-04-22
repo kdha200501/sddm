@@ -9,7 +9,7 @@
 
 Name:           sddm
 Version:        0.19.0
-Release:        10%{?dist}
+Release:        11%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -58,6 +58,9 @@ Source14: sddm.conf
 Source15: README.scripts
 # sysconfig snippet
 Source16: sddm.sysconfig
+# udev rules for disabling plasma-wayland in broken scenarios
+Source17: 61-sddm-plasmawayland.rules
+Source18: sddm-disable-plasmawayland.sh
 
 Provides: service(graphical-login) = sddm
 
@@ -155,6 +158,9 @@ cp -a %{buildroot}%{_datadir}/sddm/scripts/* \
 # we're using /etc/X11/xinit/Xsession (by default) instead
 rm -fv %{buildroot}%{_sysconfdir}/sddm/Xsession
 
+# Add auto-fallback hack for when modesetting isn't available (#1952431)
+install -Dpm 644 %{SOURCE17} %{buildroot}%{_udevrulesdir}/61-sddm-plasmawayland.rules
+install -Dpm 755 %{SOURCE18} %{buildroot}%{_libexecdir}/sddm-disable-plasmawayland
 
 %pre
 getent group sddm >/dev/null || groupadd -r sddm
@@ -223,6 +229,8 @@ fi
 %{_bindir}/sddm-greeter
 %{_libexecdir}/sddm-helper
 %{_tmpfilesdir}/sddm.conf
+%{_udevrulesdir}/61-sddm-plasmawayland.rules
+%{_libexecdir}/sddm-disable-plasmawayland
 %attr(0711, root, sddm) %dir %{_localstatedir}/run/sddm
 %attr(1770, sddm, sddm) %dir %{_localstatedir}/lib/sddm
 %{_unitdir}/sddm.service
@@ -246,6 +254,9 @@ fi
 
 
 %changelog
+* Thu Apr 22 2021 Neal Gompa <ngompa13@gmail.com> - 0.19.0-11
+- Add auto-fallback hack for when KMS isn't available (#1952431)
+
 * Tue Apr 13 2021 Adam Williamson <awilliam@redhat.com> - 0.19.0-10
 - Backport part of PR #1371 to improve session switching (#1929643)
 
