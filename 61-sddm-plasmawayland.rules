@@ -1,2 +1,3 @@
 # disable Wayland if modesetting is disabled
-IMPORT{cmdline}="nomodeset", RUN+="/usr/libexec/sddm-disable-plasmawayland"
+RUN+="/usr/bin/rm -f /etc/sddm/hide-wayland-sessions"
+IMPORT{cmdline}="nomodeset", RUN+="/usr/bin/touch /etc/sddm/hide-wayland-sessions"

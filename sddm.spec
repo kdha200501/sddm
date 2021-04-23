@@ -9,7 +9,7 @@
 
 Name:           sddm
 Version:        0.19.0
-Release:        12%{?dist}
+Release:        13%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -64,7 +64,6 @@ Source15: README.scripts
 Source16: sddm.sysconfig
 # udev rules for disabling plasma-wayland in broken scenarios
 Source17: 61-sddm-plasmawayland.rules
-Source18: sddm-disable-plasmawayland.sh
 
 Provides: service(graphical-login) = sddm
 
@@ -164,7 +163,6 @@ rm -fv %{buildroot}%{_sysconfdir}/sddm/Xsession
 
 # Add auto-fallback hack for when modesetting isn't available (#1952431)
 install -Dpm 644 %{SOURCE17} %{buildroot}%{_udevrulesdir}/61-sddm-plasmawayland.rules
-install -Dpm 755 %{SOURCE18} %{buildroot}%{_libexecdir}/sddm-disable-plasmawayland
 
 # ghost file for runtime wayland session hide flag
 touch %{buildroot}%{_sysconfdir}/sddm/hide-wayland-sessions
@@ -237,7 +235,6 @@ fi
 %{_libexecdir}/sddm-helper
 %{_tmpfilesdir}/sddm.conf
 %{_udevrulesdir}/61-sddm-plasmawayland.rules
-%{_libexecdir}/sddm-disable-plasmawayland
 %ghost %{_sysconfdir}/sddm/hide-wayland-sessions
 %attr(0711, root, sddm) %dir %{_localstatedir}/run/sddm
 %attr(1770, sddm, sddm) %dir %{_localstatedir}/lib/sddm
@@ -262,6 +259,9 @@ fi
 
 
 %changelog
+* Fri Apr 23 2021 Neal Gompa <ngompa13@gmail.com> - 0.19.0-13
+- Simplify to creating/deleting the flag file in the udev rule (#1952431)
+
 * Thu Apr 22 2021 Neal Gompa <ngompa13@gmail.com> - 0.19.0-12
 - Enable hiding Wayland sessions with a flag file (#1952431)
 
