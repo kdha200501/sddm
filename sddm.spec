@@ -9,7 +9,7 @@
 
 Name:           sddm
 Version:        0.19.0
-Release:        11%{?dist}
+Release:        12%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -45,6 +45,10 @@ Patch101:       sddm-0.19.0-fedora_config.patch
 
 # sddm.service: +EnvironmentFile=-/etc/sysconfig/sddm
 Patch103:       sddm-0.18.0-environment_file.patch
+
+# For the udev rules to allow disabling wayland sessions
+# https://bugzilla.redhat.com/1952431
+Patch104:       sddm-0.19.0-allow-hiding-wayland-sessions.patch
 
 # Shamelessly stolen from gdm
 Source11:       sddm.pam
@@ -162,6 +166,9 @@ rm -fv %{buildroot}%{_sysconfdir}/sddm/Xsession
 install -Dpm 644 %{SOURCE17} %{buildroot}%{_udevrulesdir}/61-sddm-plasmawayland.rules
 install -Dpm 755 %{SOURCE18} %{buildroot}%{_libexecdir}/sddm-disable-plasmawayland
 
+# ghost file for runtime wayland session hide flag
+touch %{buildroot}%{_sysconfdir}/sddm/hide-wayland-sessions
+
 %pre
 getent group sddm >/dev/null || groupadd -r sddm
 getent passwd sddm >/dev/null || \
@@ -231,6 +238,7 @@ fi
 %{_tmpfilesdir}/sddm.conf
 %{_udevrulesdir}/61-sddm-plasmawayland.rules
 %{_libexecdir}/sddm-disable-plasmawayland
+%ghost %{_sysconfdir}/sddm/hide-wayland-sessions
 %attr(0711, root, sddm) %dir %{_localstatedir}/run/sddm
 %attr(1770, sddm, sddm) %dir %{_localstatedir}/lib/sddm
 %{_unitdir}/sddm.service
@@ -254,6 +262,9 @@ fi
 
 
 %changelog
+* Thu Apr 22 2021 Neal Gompa <ngompa13@gmail.com> - 0.19.0-12
+- Enable hiding Wayland sessions with a flag file (#1952431)
+
 * Thu Apr 22 2021 Neal Gompa <ngompa13@gmail.com> - 0.19.0-11
 - Add auto-fallback hack for when KMS isn't available (#1952431)
 

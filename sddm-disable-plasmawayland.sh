@@ -33,3 +33,6 @@ fi
 if [ -f "/var/lib/sddm/state.conf" ]; then
 	sed -e "s|^Session=/usr/share/wayland-sessions/plasma.*|Session=/usr/share/xsessions/${X11_SESSION_NAME}|" -i /var/lib/sddm/state.conf
 fi
+
+# Tell SDDM that Wayland sessions are to be hidden
+touch /etc/sddm/hide-wayland-sessions
