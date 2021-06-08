@@ -9,7 +9,7 @@
 
 Name:           sddm
 Version:        0.19.0
-Release:        13%{?dist}
+Release:        14%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -260,6 +260,9 @@ fi
 
 
 %changelog
+* Tue Jun 08 2021 Rex Dieter <rdieter@fedoraproject.org> - 0.19.0-14
+- Use systemd-sysusers config to setup user/group
+
 * Fri Apr 23 2021 Neal Gompa <ngompa13@gmail.com> - 0.19.0-13
 - Simplify to creating/deleting the flag file in the udev rule (#1952431)
 
