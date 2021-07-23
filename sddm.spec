@@ -9,7 +9,7 @@
 
 Name:           sddm
 Version:        0.19.0
-Release:        14%{?dist}
+Release:        15%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -260,6 +260,9 @@ fi
 
 
 %changelog
+* Fri Jul 23 2021 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
+
 * Tue Jun 08 2021 Rex Dieter <rdieter@fedoraproject.org> - 0.19.0-14
 - Use systemd-sysusers config to setup user/group
 
