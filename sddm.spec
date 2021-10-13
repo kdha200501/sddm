@@ -9,7 +9,7 @@
 
 Name:           sddm
 Version:        0.19.0
-Release:        15%{?dist}
+Release:        16%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -156,7 +156,7 @@ install -Dpm 644 %{SOURCE13} %{buildroot}%{_tmpfilesdir}/sddm.conf
 install -Dpm 644 %{SOURCE14} %{buildroot}%{_sysconfdir}/sddm.conf
 install -Dpm 644 %{SOURCE15} %{buildroot}%{_datadir}/sddm/scripts/README.scripts
 install -Dpm 644 %{SOURCE16} %{buildroot}%{_sysconfdir}/sysconfig/sddm
-install -Dpm 644 %{SOURCE17} %{buildroot}%{_sysusersdir}/sddm.conf
+install -Dpm 644 %{SOURCE18} %{buildroot}%{_sysusersdir}/sddm.conf
 mkdir -p %{buildroot}/run/sddm
 mkdir -p %{buildroot}%{_localstatedir}/lib/sddm
 mkdir -p %{buildroot}%{_sysconfdir}/sddm/
@@ -260,6 +260,9 @@ fi
 
 
 %changelog
+* Wed Oct 13 2021 Timothée Ravier <tim@siosm.fr> - 0.19.0-16
+- Install the correct configuration for systemd-sysusers
+
 * Fri Jul 23 2021 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.0-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 
