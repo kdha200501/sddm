@@ -50,6 +50,11 @@ Patch103:       sddm-0.18.0-environment_file.patch
 # https://bugzilla.redhat.com/1952431
 Patch104:       sddm-0.19.0-allow-hiding-wayland-sessions.patch
 
+# Fix race with logind restart, and start seat0 if !CanGraphical on timer
+# https://bugzilla.redhat.com/show_bug.cgi?id=2011991
+# https://bugzilla.redhat.com/show_bug.cgi?id=2016310
+Patch105:       0001-Delay-for-logind-and-fallback-to-seat0.patch
+
 # Shamelessly stolen from gdm
 Source11:       sddm.pam
 # Shamelessly stolen from gdm
