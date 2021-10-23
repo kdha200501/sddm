@@ -9,7 +9,7 @@
 
 Name:           sddm
 Version:        0.19.0
-Release:        16%{?dist}
+Release:        17%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -265,6 +265,9 @@ fi
 
 
 %changelog
+* Sat Oct 23 2021 Adam Williamson <awilliam@redhat.com> - 0.19.0-17
+- Patch udev rules, logind race and seat0 fallback (jlinton) (#2011991) (#2016310)
+
 * Wed Oct 13 2021 Timothée Ravier <tim@siosm.fr> - 0.19.0-16
 - Install the correct configuration for systemd-sysusers
 
