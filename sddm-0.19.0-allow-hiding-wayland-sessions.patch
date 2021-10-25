@@ -1,18 +1,19 @@
-From 2e2ba14e8a74ea7834f797e30b130b35fa5f2e0f Mon Sep 17 00:00:00 2001
-From: Neal Gompa <ngompa13@gmail.com>
-Date: Thu, 22 Apr 2021 22:45:41 -0400
+From 0b5040a887459a974bb4a3a4512a8392daa0eb66 Mon Sep 17 00:00:00 2001
+From: Jeremy Linton <jeremy.linton@arm.com>
+Date: Mon, 25 Oct 2021 14:56:14 -0500
 Subject: [PATCH] greeter: Do not populate Wayland sessions if they are to be
  hidden
 
-Check for a file on disk that indicates that the Wayland sessions
-are to be hidden. This is useful for cases where it has been
-determined automatically that the system cannot run Wayland sessions.
+Check for /dev/dri which should indicate that the Wayland will work
+on this hardware.
+
+Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
 ---
- src/greeter/SessionModel.cpp | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ src/greeter/SessionModel.cpp | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
 diff --git a/src/greeter/SessionModel.cpp b/src/greeter/SessionModel.cpp
-index 1953c76..36ccc22 100644
+index 1953c76..b1f3296 100644
 --- a/src/greeter/SessionModel.cpp
 +++ b/src/greeter/SessionModel.cpp
 @@ -22,6 +22,7 @@
@@ -23,38 +24,34 @@ index 1953c76..36ccc22 100644
  #include <QVector>
  #include <QProcessEnvironment>
  #include <QFileSystemWatcher>
-@@ -39,22 +40,27 @@ namespace SDDM {
+@@ -39,18 +40,25 @@ namespace SDDM {
      };
  
      SessionModel::SessionModel(QObject *parent) : QAbstractListModel(parent), d(new SessionModelPrivate()) {
 +        // Check for flag to hide Wayland sessions
-+        bool waylandHiddenFlag = QFileInfo::exists(QStringLiteral("/etc/sddm/hide-wayland-sessions"));
++        bool dri_active = QFileInfo::exists(QStringLiteral("/dev/dri"));
++
          // initial population
          beginResetModel();
 -        populate(Session::WaylandSession, mainConfig.Wayland.SessionDir.get());
-+        if (!waylandHiddenFlag)
++        if (dri_active)
 +            populate(Session::WaylandSession, mainConfig.Wayland.SessionDir.get());
          populate(Session::X11Session, mainConfig.X11.SessionDir.get());
          endResetModel();
  
          // refresh everytime a file is changed, added or removed
          QFileSystemWatcher *watcher = new QFileSystemWatcher(this);
--        connect(watcher, &QFileSystemWatcher::directoryChanged, [this](const QString &path) {
-+        connect(watcher, &QFileSystemWatcher::directoryChanged, [waylandHiddenFlag, this](const QString &path) {
+         connect(watcher, &QFileSystemWatcher::directoryChanged, [this](const QString &path) {
++            // Recheck for flag to hide Wayland sessions
++            bool dri_active = QFileInfo::exists(QStringLiteral("/dev/dri"));
              beginResetModel();
              d->sessions.clear();
 -            populate(Session::WaylandSession, mainConfig.Wayland.SessionDir.get());
-+            if (!waylandHiddenFlag)
++            if (dri_active)
 +                populate(Session::WaylandSession, mainConfig.Wayland.SessionDir.get());
              populate(Session::X11Session, mainConfig.X11.SessionDir.get());
              endResetModel();
          });
--        watcher->addPath(mainConfig.Wayland.SessionDir.get());
-+        if (!waylandHiddenFlag)
-+            watcher->addPath(mainConfig.Wayland.SessionDir.get());
-         watcher->addPath(mainConfig.X11.SessionDir.get());
-     }
- 
 -- 
-2.31.1
+2.32.0
 

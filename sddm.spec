@@ -67,8 +67,6 @@ Source14: sddm.conf
 Source15: README.scripts
 # sysconfig snippet
 Source16: sddm.sysconfig
-# udev rules for disabling plasma-wayland in broken scenarios
-Source17: 61-sddm-plasmawayland.rules
 # systemd sysusers config
 Source18:  sddm-systemd-sysusers.conf
 
@@ -170,12 +168,6 @@ cp -a %{buildroot}%{_datadir}/sddm/scripts/* \
 # we're using /etc/X11/xinit/Xsession (by default) instead
 rm -fv %{buildroot}%{_sysconfdir}/sddm/Xsession
 
-# Add auto-fallback hack for when modesetting isn't available (#1952431)
-install -Dpm 644 %{SOURCE17} %{buildroot}%{_udevrulesdir}/61-sddm-plasmawayland.rules
-
-# ghost file for runtime wayland session hide flag
-touch %{buildroot}%{_sysconfdir}/sddm/hide-wayland-sessions
-
 %pre
 %sysusers_create_compat %{SOURCE18}
 
@@ -239,8 +231,6 @@ fi
 %{_bindir}/sddm-greeter
 %{_libexecdir}/sddm-helper
 %{_tmpfilesdir}/sddm.conf
-%{_udevrulesdir}/61-sddm-plasmawayland.rules
-%ghost %{_sysconfdir}/sddm/hide-wayland-sessions
 %{_sysusersdir}/sddm.conf
 %attr(0711, root, sddm) %dir /run/sddm
 %attr(1770, sddm, sddm) %dir %{_localstatedir}/lib/sddm

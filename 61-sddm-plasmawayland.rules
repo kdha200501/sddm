@@ -1,3 +1,0 @@
-# disable Wayland if modesetting is disabled
-ACTION=="add", SUBSYSTEM=="mem", KERNEL=="zero", RUN+="/usr/bin/touch /etc/sddm/hide-wayland-sessions"
-ACTION=="add", SUBSYSTEM=="drm", KERNEL=="card[0-9]", RUN+="/usr/bin/rm -f /etc/sddm/hide-wayland-sessions"
