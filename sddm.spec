@@ -9,7 +9,7 @@
 
 Name:           sddm
 Version:        0.19.0
-Release:        17%{?dist}
+Release:        18%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -46,8 +46,10 @@ Patch101:       sddm-0.19.0-fedora_config.patch
 # sddm.service: +EnvironmentFile=-/etc/sysconfig/sddm
 Patch103:       sddm-0.18.0-environment_file.patch
 
-# For the udev rules to allow disabling wayland sessions
+# Disable wayland sessions when /dev/dri doesn't exist
 # https://bugzilla.redhat.com/1952431
+# https://bugzilla.redhat.com/show_bug.cgi?id=2016788
+# https://bugzilla.redhat.com/show_bug.cgi?id=2016310
 Patch104:       sddm-0.19.0-allow-hiding-wayland-sessions.patch
 
 # Fix race with logind restart, and start seat0 if !CanGraphical on timer
@@ -255,6 +257,9 @@ fi
 
 
 %changelog
+* Mon Oct 25 2021 Adam Williamson <awilliam@redhat.com> - 0.19.0-18
+- Simplify Wayland session hiding to just look for /dev/dri (jlinton) (#2016788)
+
 * Sat Oct 23 2021 Adam Williamson <awilliam@redhat.com> - 0.19.0-17
 - Patch udev rules, logind race and seat0 fallback (jlinton) (#2011991) (#2016310)
 
