@@ -9,7 +9,7 @@
 
 Name:           sddm
 Version:        0.19.0
-Release:        18%{?dist}
+Release:        19%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -257,6 +257,9 @@ fi
 
 
 %changelog
+* Sat Jan 22 2022 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.0-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
+
 * Mon Oct 25 2021 Adam Williamson <awilliam@redhat.com> - 0.19.0-18
 - Simplify Wayland session hiding to just look for /dev/dri (jlinton) (#2016788)
 
