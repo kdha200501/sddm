@@ -1,61 +1,58 @@
 %undefine __cmake_in_source_build
 
-# Control wayland by default
-%if (0%{?fedora} && 0%{?fedora} < 34) || (0%{?rhel} && 0%{?rhel} < 9)
+# Control Plasma Wayland by default
+%if 0%{?rhel} && 0%{?rhel} < 9
 %bcond_with wayland_default
 %else
 %bcond_without wayland_default
 %endif
 
+# Control SDDM Wayland by default
+%if (0%{?fedora} && 0%{?fedora} < 36) || (0%{?rhel} && 0%{?rhel} < 9)
+%bcond_with sddm_wayland_default
+%else
+%bcond_without sddm_wayland_default
+%endif
+
+%global commit 85cbf3f2cda66f8deadea5f1e2e627a466aba885
+%global commitdate 20220130
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
+
 Name:           sddm
-Version:        0.19.0
-Release:        19%{?dist}
+Version:        0.19.0%{?commitdate:^git%{commitdate}.%{shortcommit}}
+Release:        1%{?dist}
 License:        GPLv2+
-Summary:        QML based X11 desktop manager
+Summary:        QML based desktop and login manager
 
 Url:            https://github.com/sddm/sddm
+%if 0%{?commitdate}
+Source0:        %{url}/archive/%{commit}/%{name}-%{commit}.tar.gz
+%else
 Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
+%endif
 
 ## upstream patches
 
-Patch16: 0016-Fix-sessions-being-started-as-the-wrong-type-on-auto.patch
-Patch18: 0018-wayland-session-Ensure-SHELL-remains-correctly-set.patch
-
 ## upstreamable patches
-
-# From: https://github.com/sddm/sddm/pull/997
-Patch051:       0001-Remove-suffix-for-Wayland-session.patch
-
-# From: https://github.com/sddm/sddm/pull/1230
-Patch052:       0001-Redesign-Xauth-handling.patch
-# newer(?) pristine one from upstream PR has xauth locking issues wrt RUNTIME_DIR
-#Patch52:       0001-Redesign-Xauth-handling-1.patch
-
-# https://github.com/sddm/sddm/commit/42c5176 plus the first two
-# commits from:
-# https://github.com/sddm/sddm/pull/1371
-# Fixes several (but not all) issues with session switching:
-# https://bugzilla.redhat.com/show_bug.cgi?id=1929643
-Patch053:       0001-Retry-starting-the-display-server.patch
-Patch054:       3c92e9206dc2e17fa5dc13f37be2926e9131ce94.patch
-Patch055:       308fd0df2583b02251f0d80c397ccbf9fa7a9e04.patch
-
-## downstream patches
-Patch101:       sddm-0.19.0-fedora_config.patch
-
-# sddm.service: +EnvironmentFile=-/etc/sysconfig/sddm
-Patch103:       sddm-0.18.0-environment_file.patch
 
 # Disable wayland sessions when /dev/dri doesn't exist
 # https://bugzilla.redhat.com/1952431
 # https://bugzilla.redhat.com/show_bug.cgi?id=2016788
 # https://bugzilla.redhat.com/show_bug.cgi?id=2016310
-Patch104:       sddm-0.19.0-allow-hiding-wayland-sessions.patch
+# Submitted: https://github.com/sddm/sddm/pull/1489
+Patch10:       sddm-0.20.0-allow-hiding-wayland-sessions.patch
 
 # Fix race with logind restart, and start seat0 if !CanGraphical on timer
 # https://bugzilla.redhat.com/show_bug.cgi?id=2011991
 # https://bugzilla.redhat.com/show_bug.cgi?id=2016310
-Patch105:       0001-Delay-for-logind-and-fallback-to-seat0.patch
+# Submmited: https://github.com/sddm/sddm/pull/1494
+Patch11:       0001-Delay-for-logind-and-fallback-to-seat0.patch
+
+## downstream patches
+Patch101:       sddm-0.20.0-fedora_config.patch
+
+# sddm.service: +EnvironmentFile=-/etc/sysconfig/sddm
+Patch103:       sddm-0.18.0-environment_file.patch
 
 # Shamelessly stolen from gdm
 Source11:       sddm.pam
@@ -71,6 +68,9 @@ Source15: README.scripts
 Source16: sddm.sysconfig
 # systemd sysusers config
 Source18:  sddm-systemd-sysusers.conf
+# sddm x11 override config
+Source19:  sddm-x11.conf
+
 
 Provides: service(graphical-login) = sddm
 
@@ -103,19 +103,50 @@ Requires: system-logos
 %endif
 Requires: systemd
 Requires: xorg-x11-xinit
-%ifnarch s390 s390x
-Requires: xorg-x11-server-Xorg
-
 Suggests: qt5-qtvirtualkeyboard%{?_isa}
-%endif
 %{?systemd_requires}
 
 Requires(pre): shadow-utils
 
+# Virtual dependency for sddm greeter setup
+Requires: sddm-greeter-displayserver
+%if ! %{with sddm_wayland_default}
+Suggests: sddm-x11
+%else
+Suggests: sddm-wayland-generic
+%endif
+
 %description
-SDDM is a modern display manager for X11 aiming to be fast, simple and
+SDDM is a modern graphical display manager aiming to be fast, simple and
 beautiful. It uses modern technologies like QtQuick, which in turn gives the
 designer the ability to create smooth, animated user interfaces.
+
+%package wayland-generic
+Summary: Generic Wayland SDDM greeter configuration
+Provides: sddm-greeter-displayserver
+Conflicts: sddm-greeter-displayserver
+Requires: weston
+Requires: %{name} = %{version}-%{release}
+BuildArch: noarch
+
+%description wayland-generic
+This package contains configuration and dependencies for SDDM
+to use Weston for the greeter display server.
+
+This is the generic default Wayland configuration provided
+by SDDM.
+
+%package x11
+Summary: X11 SDDM greeter configuration
+Provides: sddm-greeter-displayserver
+Conflicts: sddm-greeter-displayserver
+Requires: xorg-x11-server-Xorg
+Requires: %{name} = %{version}-%{release}
+BuildArch: noarch
+
+%description x11
+This package contains configuration and dependencies for SDDM
+to use X11 for the greeter display server.
 
 %package themes
 Summary: SDDM Themes
@@ -128,7 +159,7 @@ A collection of sddm themes, including: elarun, maldives, maya
 
 
 %prep
-%autosetup -p1
+%autosetup -p1 %{?commitdate:-n %{name}-%{commit}}
 
 %if 0%{?fedora}
 #FIXME/TODO: use version on filesystem instead of using a bundled copy
@@ -155,6 +186,7 @@ ls -sh src/greeter/theme/background.png
 %cmake_install
 
 mkdir -p %{buildroot}%{_sysconfdir}/sddm.conf.d
+mkdir -p %{buildroot}%{_prefix}/lib/sddm/sddm.conf.d
 install -Dpm 644 %{SOURCE11} %{buildroot}%{_sysconfdir}/pam.d/sddm
 install -Dpm 644 %{SOURCE12} %{buildroot}%{_sysconfdir}/pam.d/sddm-autologin
 install -Dpm 644 %{SOURCE13} %{buildroot}%{_tmpfilesdir}/sddm.conf
@@ -162,6 +194,7 @@ install -Dpm 644 %{SOURCE14} %{buildroot}%{_sysconfdir}/sddm.conf
 install -Dpm 644 %{SOURCE15} %{buildroot}%{_datadir}/sddm/scripts/README.scripts
 install -Dpm 644 %{SOURCE16} %{buildroot}%{_sysconfdir}/sysconfig/sddm
 install -Dpm 644 %{SOURCE18} %{buildroot}%{_sysusersdir}/sddm.conf
+install -Dpm 644 %{SOURCE19} %{buildroot}%{_prefix}/lib/sddm/sddm.conf.d/x11.conf
 mkdir -p %{buildroot}/run/sddm
 mkdir -p %{buildroot}%{_localstatedir}/lib/sddm
 mkdir -p %{buildroot}%{_sysconfdir}/sddm/
@@ -221,6 +254,7 @@ fi
 %doc README.md CONTRIBUTORS
 %dir %{_sysconfdir}/sddm/
 %dir %{_sysconfdir}/sddm.conf.d
+%dir %{_prefix}/lib/sddm/sddm.conf.d
 %config(noreplace)   %{_sysconfdir}/sddm/*
 %config(noreplace)   %{_sysconfdir}/sddm.conf
 %config(noreplace)   %{_sysconfdir}/pam.d/sddm
@@ -232,6 +266,8 @@ fi
 %{_bindir}/sddm
 %{_bindir}/sddm-greeter
 %{_libexecdir}/sddm-helper
+%{_libexecdir}/sddm-helper-start-wayland
+%{_libexecdir}/sddm-helper-start-x11user
 %{_tmpfilesdir}/sddm.conf
 %{_sysusersdir}/sddm.conf
 %attr(0711, root, sddm) %dir /run/sddm
@@ -250,6 +286,12 @@ fi
 %{_mandir}/man5/sddm.conf.5*
 %{_mandir}/man5/sddm-state.conf.5*
 
+%files wayland-generic
+# No files since default configuration
+
+%files x11
+%{_prefix}/lib/sddm/sddm.conf.d/x11.conf
+
 %files themes
 %{_datadir}/sddm/themes/elarun/
 %{_datadir}/sddm/themes/maldives/
@@ -257,6 +299,14 @@ fi
 
 
 %changelog
+* Sun Jan 30 2022 Neal Gompa <ngompa@fedoraproject.org> - 0.19.0^git20220130.85cbf3f-1
+- Update to snapshot release
+- Drop upstreamed patches
+- Drop Xauth patch due to inability to apply it
+- Update status on remaining patches
+- Add support for using a Wayland greeter
+- Clean up Wayland conditionals
+
 * Sat Jan 22 2022 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.0-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 

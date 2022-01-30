@@ -1,4 +1,4 @@
-From 77a1f3148f515ae7c9b65f45dafe85bc58348ff9 Mon Sep 17 00:00:00 2001
+From 57f91b5f23fcaacaaafd5d8263f65ed58d0cdf15 Mon Sep 17 00:00:00 2001
 From: Jeremy Linton <jeremy.linton@arm.com>
 Date: Fri, 22 Oct 2021 14:51:54 -0500
 Subject: [PATCH] Delay for logind, and fallback to seat0
@@ -10,10 +10,10 @@ of the state of CanGraphical.
 
 Fixing this, though we still want seat0 to be started
 if none of the seats appear to be graphical. Presumably
-there are some graphics on the machine ,otherwise
+there are some graphics on the machine, otherwise
 why run sddm? Wait a bit, and create seat0 anyway. If
 this fails the output from Xorg should tell us why. This
-is generally a better strategy than what happens a goodly
+is generally a better strategy than what happens a good
 amount of time now, where sddm is started and silent about
 why the screen is blank.
 
@@ -25,7 +25,7 @@ Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
  3 files changed, 44 insertions(+), 10 deletions(-)
 
 diff --git a/src/daemon/LogindDBusTypes.cpp b/src/daemon/LogindDBusTypes.cpp
-index 011bb7f..e19f1db 100644
+index 011bb7f..6255c69 100644
 --- a/src/daemon/LogindDBusTypes.cpp
 +++ b/src/daemon/LogindDBusTypes.cpp
 @@ -8,6 +8,8 @@
@@ -51,9 +51,9 @@ index 011bb7f..e19f1db 100644
 -        sessionIfaceName = QStringLiteral("org.freedesktop.login1.Session");
 -        userIfaceName = QStringLiteral("org.freedesktop.login1.User");
 -        return;
-+    // Fedora _should_ have a systemd-logind running, although because it takes a few moments to restart after
-+    // systemctl isolate calls, it may not yet be running. Wait a few seconds for it, while blocking everything else.
 +#ifdef HAVE_SYSTEMD
++    // systemd-logind should be running, although because it takes a few moments to restart after
++    // systemctl isolate calls, it may not yet be running. Wait a few seconds for it, while blocking everything else.
 +    int logind_wait_seconds = 50;
 +    while (logind_wait_seconds--) {
 +        if (QDBusConnection::systemBus().interface()->isServiceRegistered(QStringLiteral("org.freedesktop.login1"))) {
@@ -134,5 +134,5 @@ index b2f9796..aa43047 100644
  }
  
 -- 
-2.32.0
+2.33.1
 
