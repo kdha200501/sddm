@@ -20,7 +20,7 @@
 
 Name:           sddm
 Version:        0.19.0%{?commitdate:^git%{commitdate}.%{shortcommit}}
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2+
 Summary:        QML based desktop and login manager
 
@@ -299,6 +299,9 @@ fi
 
 
 %changelog
+* Mon Feb 07 2022 Neal Gompa <ngompa@fedoraproject.org> - 0.19.0^git20220130.85cbf3f-2
+- Use unprivileged X server for sddm-x11 configuration
+
 * Sun Jan 30 2022 Neal Gompa <ngompa@fedoraproject.org> - 0.19.0^git20220130.85cbf3f-1
 - Update to snapshot release
 - Drop upstreamed patches
