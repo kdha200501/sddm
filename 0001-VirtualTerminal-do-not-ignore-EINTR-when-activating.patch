@@ -1,0 +1,43 @@
+From 704e4ce6c334dcf5db1fe9af22eabd335cebb775 Mon Sep 17 00:00:00 2001
+From: Aleix Pol <aleixpol@kde.org>
+Date: Fri, 25 Feb 2022 03:02:40 +0100
+Subject: [PATCH] VirtualTerminal: do not ignore EINTR when activating
+
+EINTR can be called at any time when a signal is received but here we
+still need to follow through with both ioctl() calls.
+
+This change is inspired by how xserver does more or less the same thing.
+---
+ src/common/VirtualTerminal.cpp | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/src/common/VirtualTerminal.cpp b/src/common/VirtualTerminal.cpp
+index e1330af..7791caf 100644
+--- a/src/common/VirtualTerminal.cpp
++++ b/src/common/VirtualTerminal.cpp
+@@ -211,10 +211,19 @@ out:
+             if (!vt_auto)
+                 handleVtSwitches(fd);
+ 
+-            if (ioctl(fd, VT_ACTIVATE, vt) < 0)
++            int ret;
++            while ((ret = ioctl(fd, VT_ACTIVATE, vt) < 0) && errno == EINTR)
++            {}
++
++            if (ret < 0)
+                 qWarning("Couldn't initiate jump to VT %d: %s", vt, strerror(errno));
+-            else if (ioctl(fd, VT_WAITACTIVE, vt) < 0)
+-                qWarning("Couldn't finalize jump to VT %d: %s", vt, strerror(errno));
++            else {
++                while ((ret = ioctl(fd, VT_WAITACTIVE, vt) < 0) && errno == EINTR)
++                {}
++
++                if (ret < 0)
++                    qWarning("Couldn't finalize jump to VT %d: %s", vt, strerror(errno));
++            }
+ 
+             close(activeVtFd);
+             if (vtFd != -1)
+-- 
+2.34.1
+
