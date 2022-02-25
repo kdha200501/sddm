@@ -14,13 +14,13 @@
 %bcond_without sddm_wayland_default
 %endif
 
-%global commit 85cbf3f2cda66f8deadea5f1e2e627a466aba885
-%global commitdate 20220130
+%global commit 5ad9f19d958e69e9c3f08baa9161794ceafe4da7
+%global commitdate 20220224
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           sddm
 Version:        0.19.0%{?commitdate:^git%{commitdate}.%{shortcommit}}
-Release:        2%{?dist}
+Release:        1%{?dist}
 License:        GPLv2+
 Summary:        QML based desktop and login manager
 
@@ -299,6 +299,9 @@ fi
 
 
 %changelog
+* Fri Feb 25 2022 Neal Gompa <ngompa@fedoraproject.org> - 0.19.0^git20220224.5ad9f19-1
+- Update to new snapshot release
+
 * Mon Feb 07 2022 Neal Gompa <ngompa@fedoraproject.org> - 0.19.0^git20220130.85cbf3f-2
 - Use unprivileged X server for sddm-x11 configuration
 
