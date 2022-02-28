@@ -14,13 +14,13 @@
 %bcond_without sddm_wayland_default
 %endif
 
-%global commit 5ad9f19d958e69e9c3f08baa9161794ceafe4da7
-%global commitdate 20220224
+%global commit c257a40ba95f56b5f3830b923b1c56aa055cf8ea
+%global commitdate 20220228
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           sddm
 Version:        0.19.0%{?commitdate:^git%{commitdate}.%{shortcommit}}
-Release:        2%{?dist}
+Release:        1%{?dist}
 License:        GPLv2+
 Summary:        QML based desktop and login manager
 
@@ -47,10 +47,6 @@ Patch10:       sddm-0.20.0-allow-hiding-wayland-sessions.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=2016310
 # Submmited: https://github.com/sddm/sddm/pull/1494
 Patch11:       0001-Delay-for-logind-and-fallback-to-seat0.patch
-
-# VirtualTerminal: do not ignore EINTR when activating
-# Submitted: https://github.com/sddm/sddm/pull/1521
-Patch12:       0001-VirtualTerminal-do-not-ignore-EINTR-when-activating.patch
 
 ## downstream patches
 Patch101:       sddm-0.20.0-fedora_config.patch
@@ -303,6 +299,10 @@ fi
 
 
 %changelog
+* Mon Feb 28 2022 Neal Gompa <ngompa@fedoraproject.org> - 0.19.0^git20220228.c257a40-1
+- Update to new snapshot
+- Drop merged proposed patch to not ignore EINTR when activating
+
 * Fri Feb 25 2022 Neal Gompa <ngompa@fedoraproject.org> - 0.19.0^git20220224.5ad9f19-2
 - Add proposed patch to not ignore EINTR when activating
 
