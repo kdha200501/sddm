@@ -8,7 +8,7 @@
 %endif
 
 # Control SDDM Wayland by default
-%if (0%{?fedora} && 0%{?fedora} < 36) || (0%{?rhel} && 0%{?rhel} < 9)
+%if (0%{?fedora} && 0%{?fedora} < 37) || (0%{?rhel} && 0%{?rhel} < 9)
 %bcond_with sddm_wayland_default
 %else
 %bcond_without sddm_wayland_default
@@ -20,7 +20,7 @@
 
 Name:           sddm
 Version:        0.19.0%{?commitdate:^git%{commitdate}.%{shortcommit}}
-Release:        3%{?dist}
+Release:        4%{?dist}
 License:        GPLv2+
 Summary:        QML based desktop and login manager
 
@@ -308,6 +308,9 @@ fi
 
 
 %changelog
+* Mon Mar 14 2022 Neal Gompa <ngompa@fedoraproject.org> - 0.19.0^git20220228.c257a40-4
+- Switch back to the X11 greeter for F36
+
 * Sun Mar 06 2022 Neal Gompa <ngompa@fedoraproject.org> - 0.19.0^git20220228.c257a40-3
 - Backport fix to get sddm to log to the journal more
 
