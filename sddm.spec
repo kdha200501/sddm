@@ -14,13 +14,13 @@
 %bcond_without sddm_wayland_default
 %endif
 
-%global commit c257a40ba95f56b5f3830b923b1c56aa055cf8ea
-%global commitdate 20220228
+%global commit e67307e4103a8606d57a0c2fd48a378e40fcef06
+%global commitdate 20220321
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           sddm
 Version:        0.19.0%{?commitdate:^git%{commitdate}.%{shortcommit}}
-Release:        4%{?dist}
+Release:        1%{?dist}
 License:        GPLv2+
 Summary:        QML based desktop and login manager
 
@@ -47,11 +47,6 @@ Patch10:       sddm-0.20.0-allow-hiding-wayland-sessions.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=2016310
 # Submmited: https://github.com/sddm/sddm/pull/1494
 Patch11:       0001-Delay-for-logind-and-fallback-to-seat0.patch
-
-# https://github.com/sddm/sddm/pull/1522
-# Attempts to SDDM 'crash' preventing logins after the first:
-# https://bugzilla.redhat.com/show_bug.cgi?id=2057419
-Patch12:        1522.patch
 
 # https://github.com/sddm/sddm/pull/1526
 # Try to get sddm to log to the journal more
@@ -308,6 +303,9 @@ fi
 
 
 %changelog
+* Sun Apr 03 2022 Neal Gompa <ngompa@fedoraproject.org> - 0.19.0^git20220321.e67307e-1
+- Bump to new git snapshot to include refreshed fix for sddm crash (#2057419)
+
 * Mon Mar 14 2022 Neal Gompa <ngompa@fedoraproject.org> - 0.19.0^git20220228.c257a40-4
 - Switch back to the X11 greeter for F36
 
