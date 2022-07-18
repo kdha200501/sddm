@@ -8,7 +8,7 @@
 %endif
 
 # Control SDDM Wayland by default
-%if (0%{?fedora} && 0%{?fedora} < 37) || (0%{?rhel} && 0%{?rhel} < 9)
+%if (0%{?fedora} && 0%{?fedora} < 37) || (0%{?rhel} && 0%{?rhel} <= 9)
 %bcond_with sddm_wayland_default
 %else
 %bcond_without sddm_wayland_default
