@@ -1,7 +1,7 @@
 %undefine __cmake_in_source_build
 
 # Control Plasma Wayland by default
-%if 0%{?rhel} && 0%{?rhel} < 9
+%if 0%{?rhel} && 0%{?rhel} <= 9
 %bcond_with wayland_default
 %else
 %bcond_without wayland_default
