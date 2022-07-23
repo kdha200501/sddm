@@ -20,7 +20,7 @@
 
 Name:           sddm
 Version:        0.19.0%{?commitdate:^git%{commitdate}.%{shortcommit}}
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        GPLv2+
 Summary:        QML based desktop and login manager
 
@@ -303,6 +303,9 @@ fi
 
 
 %changelog
+* Sat Jul 23 2022 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.0^git20220321.e67307e-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild
+
 * Sun Apr 03 2022 Neal Gompa <ngompa@fedoraproject.org> - 0.19.0^git20220321.e67307e-2
 - Switch X11 greeter to rootful X server (#2070130)
 
