@@ -8,7 +8,7 @@
 %endif
 
 # Control SDDM Wayland by default
-%if (0%{?fedora} && 0%{?fedora} < 37) || (0%{?rhel} && 0%{?rhel} <= 9)
+%if (0%{?fedora} && 0%{?fedora} < 38) || (0%{?rhel} && 0%{?rhel} <= 9)
 %bcond_with sddm_wayland_default
 %else
 %bcond_without sddm_wayland_default
@@ -20,7 +20,7 @@
 
 Name:           sddm
 Version:        0.19.0%{?commitdate:^git%{commitdate}.%{shortcommit}}
-Release:        3%{?dist}
+Release:        4%{?dist}
 License:        GPLv2+
 Summary:        QML based desktop and login manager
 
@@ -303,6 +303,9 @@ fi
 
 
 %changelog
+* Thu Aug 18 2022 Timothée Ravier <tim@siosm.fr> - 0.19.0^git20220321.e67307e-4
+- Skip enabling Wayland by default on F37
+
 * Sat Jul 23 2022 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.0^git20220321.e67307e-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild
 
