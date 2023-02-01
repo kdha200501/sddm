@@ -14,13 +14,13 @@
 %bcond_without sddm_wayland_default
 %endif
 
-%global commit b042f69ff3ada1e5d94156450621db7a9246645a
+%global commit 3ee57e99836fe051c97e0f301962120466d220f7
 %global commitdate 20230201
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           sddm
 Version:        0.19.0%{?commitdate:^git%{commitdate}.%{shortcommit}}
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2+
 Summary:        QML based desktop and login manager
 
@@ -292,6 +292,9 @@ fi
 
 
 %changelog
+* Wed Feb 01 2023 Marc Deop <marcdeop@fedoraproject.org> - 0.19.0^git20230201.3ee57e9-2
+- Update to new snapshot
+
 * Wed Feb 01 2023 Marc Deop <marcdeop@fedoraproject.org> - 0.19.0^git20230201.b042f69-1
 - Update to new snapshot.
 - Remove patches merged upstream.
