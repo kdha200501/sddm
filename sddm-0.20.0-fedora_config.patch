@@ -1,17 +1,18 @@
 diff --git a/src/common/Configuration.h b/src/common/Configuration.h
-index cdffde3..0272e2c 100644
+index 182f6a1..538243b 100644
 --- a/src/common/Configuration.h
 +++ b/src/common/Configuration.h
-@@ -38,7 +38,7 @@ namespace SDDM {
+@@ -37,8 +37,7 @@ namespace SDDM {
+         enum NumState { NUM_NONE, NUM_SET_ON, NUM_SET_OFF };
  
          //  Name                   Type         Default value                                   Description
-         // TODO: Change default to x11-user in a future release
+-        // TODO: Change default to x11-user in a future release
 -        Entry(DisplayServer,       QString,     _S("x11"),                                      _S("Which display server should be used.\n"
 +        Entry(DisplayServer,       QString,     _S("wayland"),                                  _S("Which display server should be used.\n"
                                                                                                     "Valid values are: x11, x11-user, wayland."));
          Entry(HaltCommand,         QString,     _S(HALT_COMMAND),                               _S("Halt command"));
          Entry(RebootCommand,       QString,     _S(REBOOT_COMMAND),                             _S("Reboot command"));
-@@ -51,7 +51,7 @@ namespace SDDM {
+@@ -51,7 +50,7 @@ namespace SDDM {
          //  Name   Entries (but it's a regular class again)
          Section(Theme,
              Entry(ThemeDir,            QString,     _S(DATA_INSTALL_DIR "/themes"),             _S("Theme directory path"));
@@ -20,26 +21,25 @@ index cdffde3..0272e2c 100644
              Entry(FacesDir,            QString,     _S(DATA_INSTALL_DIR "/faces"),              _S("Global directory for user avatars\n"
                                                                                                     "The files should be named <username>.face.icon"));
              Entry(CursorTheme,         QString,     QString(),                                  _S("Cursor theme used in the greeter"));
-@@ -71,10 +71,10 @@ namespace SDDM {
-             Entry(XauthPath,           QString,     _S("/usr/bin/xauth"),                       _S("Path to xauth binary"));
-             Entry(SessionDir,          QString,     _S("/usr/share/xsessions"),                 _S("Directory containing available X sessions"));
+@@ -71,9 +70,9 @@ namespace SDDM {
+             Entry(SessionDir,          QStringList, {_S("/usr/local/share/xsessions"),
+                                                      _S("/usr/share/xsessions")},               _S("Comma-separated list of directories containing available X sessions"));
              Entry(SessionCommand,      QString,     _S(SESSION_COMMAND),                        _S("Path to a script to execute when starting the desktop session"));
--	    Entry(SessionLogFile,      QString,     _S(".local/share/sddm/xorg-session.log"),   _S("Path to the user session log file"));
-+	    Entry(SessionLogFile,      QString,     _S(".cache/xsession-errors"),               _S("Path to the user session log file"));
- 	    Entry(UserAuthFile,        QString,     _S(".Xauthority"),                          _S("Path to the Xauthority file"));
+-            Entry(SessionLogFile,      QString,     _S(".local/share/sddm/xorg-session.log"),   _S("Path to the user session log file"));
 -            Entry(DisplayCommand,      QString,     _S(DATA_INSTALL_DIR "/scripts/Xsetup"),     _S("Path to a script to execute when starting the display server"));
 -            Entry(DisplayStopCommand,  QString,     _S(DATA_INSTALL_DIR "/scripts/Xstop"),      _S("Path to a script to execute when stopping the display server"));
++            Entry(SessionLogFile,      QString,     _S(".cache/xsession-errors"),               _S("Path to the user session log file"));
 +            Entry(DisplayCommand,      QString,     _S(SYS_CONFIG_DIR "/sddm/Xsetup"),          _S("Path to a script to execute when starting the display server"));
 +            Entry(DisplayStopCommand,  QString,     _S(SYS_CONFIG_DIR "/sddm/Xstop"),           _S("Path to a script to execute when stopping the display server"));
              Entry(EnableHiDPI,         bool,        false,                                      _S("Enable Qt's automatic high-DPI scaling"));
          );
  
-@@ -82,12 +82,12 @@ namespace SDDM {
-             Entry(CompositorCommand,   QString,     _S("weston --shell=fullscreen-shell.so"),   _S("Path of the Wayland compositor to execute when starting the greeter"));
-             Entry(SessionDir,          QString,     _S("/usr/share/wayland-sessions"),          _S("Directory containing available Wayland sessions"));
+@@ -82,12 +81,12 @@ namespace SDDM {
+             Entry(SessionDir,          QStringList, {_S("/usr/local/share/wayland-sessions"),
+                                                      _S("/usr/share/wayland-sessions")},        _S("Comma-separated list of directories containing available Wayland sessions"));
              Entry(SessionCommand,      QString,     _S(WAYLAND_SESSION_COMMAND),                _S("Path to a script to execute when starting the desktop session"));
--	    Entry(SessionLogFile,      QString,     _S(".local/share/sddm/wayland-session.log"),_S("Path to the user session log file"));
-+	    Entry(SessionLogFile,      QString,     _S(".cache/wayland-errors"),                _S("Path to the user session log file"));
+-            Entry(SessionLogFile,      QString,     _S(".local/share/sddm/wayland-session.log"),_S("Path to the user session log file"));
++            Entry(SessionLogFile,      QString,     _S(".cache/wayland-errors"),                _S("Path to the user session log file"));
              Entry(EnableHiDPI,         bool,        false,                                      _S("Enable Qt's automatic high-DPI scaling"));
          );
  
