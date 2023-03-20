@@ -1,8 +1,7 @@
-diff --git a/src/common/Configuration.h b/src/common/Configuration.h
-index 182f6a1..538243b 100644
---- a/src/common/Configuration.h
-+++ b/src/common/Configuration.h
-@@ -37,8 +37,7 @@ namespace SDDM {
+diff -bur ../sddm-e07e805c21310572b4fecc810fd5610b1d3d03fd-old/src/common/Configuration.h ./src/common/Configuration.h
+--- ../sddm-e07e805c21310572b4fecc810fd5610b1d3d03fd-old/src/common/Configuration.h	2023-03-20 12:26:39.000000000 +0100
++++ ./src/common/Configuration.h	2023-03-20 13:26:27.420722920 +0100
+@@ -37,8 +37,7 @@
          enum NumState { NUM_NONE, NUM_SET_ON, NUM_SET_OFF };
  
          //  Name                   Type         Default value                                   Description
@@ -12,7 +11,7 @@ index 182f6a1..538243b 100644
                                                                                                     "Valid values are: x11, x11-user, wayland."));
          Entry(HaltCommand,         QString,     _S(HALT_COMMAND),                               _S("Halt command"));
          Entry(RebootCommand,       QString,     _S(REBOOT_COMMAND),                             _S("Reboot command"));
-@@ -51,7 +50,7 @@ namespace SDDM {
+@@ -51,7 +50,7 @@
          //  Name   Entries (but it's a regular class again)
          Section(Theme,
              Entry(ThemeDir,            QString,     _S(DATA_INSTALL_DIR "/themes"),             _S("Theme directory path"));
@@ -21,7 +20,7 @@ index 182f6a1..538243b 100644
              Entry(FacesDir,            QString,     _S(DATA_INSTALL_DIR "/faces"),              _S("Global directory for user avatars\n"
                                                                                                     "The files should be named <username>.face.icon"));
              Entry(CursorTheme,         QString,     QString(),                                  _S("Cursor theme used in the greeter"));
-@@ -71,9 +70,9 @@ namespace SDDM {
+@@ -71,9 +70,9 @@
              Entry(SessionDir,          QStringList, {_S("/usr/local/share/xsessions"),
                                                       _S("/usr/share/xsessions")},               _S("Comma-separated list of directories containing available X sessions"));
              Entry(SessionCommand,      QString,     _S(SESSION_COMMAND),                        _S("Path to a script to execute when starting the desktop session"));
@@ -31,16 +30,16 @@ index 182f6a1..538243b 100644
 +            Entry(SessionLogFile,      QString,     _S(".cache/xsession-errors"),               _S("Path to the user session log file"));
 +            Entry(DisplayCommand,      QString,     _S(SYS_CONFIG_DIR "/sddm/Xsetup"),          _S("Path to a script to execute when starting the display server"));
 +            Entry(DisplayStopCommand,  QString,     _S(SYS_CONFIG_DIR "/sddm/Xstop"),           _S("Path to a script to execute when stopping the display server"));
-             Entry(EnableHiDPI,         bool,        false,                                      _S("Enable Qt's automatic high-DPI scaling"));
+             Entry(EnableHiDPI,         bool,        true,                                      _S("Enable Qt's automatic high-DPI scaling"));
          );
  
-@@ -82,12 +81,12 @@ namespace SDDM {
+@@ -82,12 +81,12 @@
              Entry(SessionDir,          QStringList, {_S("/usr/local/share/wayland-sessions"),
                                                       _S("/usr/share/wayland-sessions")},        _S("Comma-separated list of directories containing available Wayland sessions"));
              Entry(SessionCommand,      QString,     _S(WAYLAND_SESSION_COMMAND),                _S("Path to a script to execute when starting the desktop session"));
 -            Entry(SessionLogFile,      QString,     _S(".local/share/sddm/wayland-session.log"),_S("Path to the user session log file"));
 +            Entry(SessionLogFile,      QString,     _S(".cache/wayland-errors"),                _S("Path to the user session log file"));
-             Entry(EnableHiDPI,         bool,        false,                                      _S("Enable Qt's automatic high-DPI scaling"));
+             Entry(EnableHiDPI,         bool,        true,                                       _S("Enable Qt's automatic high-DPI scaling"));
          );
  
          Section(Users,

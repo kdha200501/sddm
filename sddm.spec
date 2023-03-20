@@ -14,8 +14,8 @@
 %bcond_without sddm_wayland_default
 %endif
 
-%global commit 572b128c92c5bce366f5db136423b0b296448429
-%global commitdate 20230306
+%global commit e07e805c21310572b4fecc810fd5610b1d3d03fd
+%global commitdate 20230320
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           sddm
@@ -289,6 +289,10 @@ fi
 
 
 %changelog
+* Mon Mar 20 2023 Marc Deop i Argemí <marcdeop@fedoraproject.org> - 0.19.0^git20230320.e07e805-1
+- Update to snapshot e07e805c21310572b4fecc810fd5610b1d3d03fd
+- Fixes #2179591
+
 * Mon Mar 06 2023 Marc Deop i Argemí <marcdeop@fedoraproject.org> - 0.19.0^git20230306.7bd10de-1
 - Update to new snapshot
 - Fixes #2175947
