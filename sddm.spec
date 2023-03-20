@@ -20,7 +20,7 @@
 
 Name:           sddm
 Version:        0.19.0%{?commitdate:^git%{commitdate}.%{shortcommit}}
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2+
 Summary:        QML based desktop and login manager
 
@@ -40,6 +40,12 @@ Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 # https://bugzilla.redhat.com/show_bug.cgi?id=2016310
 # Submmited: https://github.com/sddm/sddm/pull/1494
 Patch11:        0001-Delay-for-logind-and-fallback-to-seat0.patch
+
+# Disable xdg-desktop-portal-kde in Wayland
+# https://bugzilla.redhat.com/show_bug.cgi?id=2178971
+# https://bugzilla.redhat.com/show_bug.cgi?id=2129479
+# From: https://github.com/sddm/sddm/pull/1687
+Patch12:        sddm-PR1687.patch
 
 ## downstream patches
 Patch101:       sddm-0.20.0-fedora_config.patch
@@ -289,6 +295,9 @@ fi
 
 
 %changelog
+* Mon Mar 20 2023 Neal Gompa <ngompa@fedoraproject.org> - 0.19.0^git20230320.e07e805-2
+- Add patch to stop launching xdg-desktop-portal with Wayland greeter (#2178971, #2129479)
+
 * Mon Mar 20 2023 Marc Deop i Argemí <marcdeop@fedoraproject.org> - 0.19.0^git20230320.e07e805-1
 - Update to snapshot e07e805c21310572b4fecc810fd5610b1d3d03fd
 - Fixes #2179591
