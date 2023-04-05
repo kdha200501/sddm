@@ -1,4 +1,4 @@
-From 5e6c0f872272fd617228628ab46c491313750019 Mon Sep 17 00:00:00 2001
+From 4d44531c8f624f5b479c3ff23e8fecc67eb848ab Mon Sep 17 00:00:00 2001
 From: Jeremy Linton <jeremy.linton@arm.com>
 Date: Fri, 22 Oct 2021 14:51:54 -0500
 Subject: [PATCH] Delay for logind, and fallback to seat0
@@ -79,7 +79,7 @@ index 011bb7f..6255c69 100644
      if (QDBusConnection::systemBus().interface()->isServiceRegistered(QStringLiteral("org.freedesktop.ConsoleKit"))) {
          qDebug() << "Console kit interface found";
 diff --git a/src/daemon/SeatManager.cpp b/src/daemon/SeatManager.cpp
-index 429ed19..9f569bb 100644
+index bd207e6..39d8b85 100644
 --- a/src/daemon/SeatManager.cpp
 +++ b/src/daemon/SeatManager.cpp
 @@ -26,6 +26,9 @@
@@ -124,7 +124,7 @@ index 429ed19..9f569bb 100644
 +
      void SDDM::SeatManager::logindSeatAdded(const QString& name, const QDBusObjectPath& objectPath)
      {
-         auto logindSeat = new LogindSeat(name, objectPath, this);
+         auto logindSeat = new LogindSeat(name, objectPath);
 diff --git a/src/daemon/SeatManager.h b/src/daemon/SeatManager.h
 index b2f9796..aa43047 100644
 --- a/src/daemon/SeatManager.h
@@ -138,5 +138,5 @@ index b2f9796..aa43047 100644
  }
  
 -- 
-2.38.1
+2.39.2
 
