@@ -1,17 +1,20 @@
-diff -bur ../sddm-e07e805c21310572b4fecc810fd5610b1d3d03fd-old/src/common/Configuration.h ./src/common/Configuration.h
---- ../sddm-e07e805c21310572b4fecc810fd5610b1d3d03fd-old/src/common/Configuration.h	2023-03-20 12:26:39.000000000 +0100
-+++ ./src/common/Configuration.h	2023-03-20 13:26:27.420722920 +0100
-@@ -37,8 +37,7 @@
+diff --git a/src/common/Configuration.h b/src/common/Configuration.h
+index 54bcace..9b8fa22 100644
+--- a/src/common/Configuration.h
++++ b/src/common/Configuration.h
+@@ -37,9 +37,8 @@ namespace SDDM {
          enum NumState { NUM_NONE, NUM_SET_ON, NUM_SET_OFF };
  
          //  Name                   Type         Default value                                   Description
 -        // TODO: Change default to x11-user in a future release
 -        Entry(DisplayServer,       QString,     _S("x11"),                                      _S("Which display server should be used.\n"
+-                                                                                                   "Valid values are: x11, x11-user, wayland. Wayland support is experimental"));
 +        Entry(DisplayServer,       QString,     _S("wayland"),                                  _S("Which display server should be used.\n"
-                                                                                                    "Valid values are: x11, x11-user, wayland."));
++                                                                                                   "Valid values are: x11, x11-user, wayland."));
          Entry(HaltCommand,         QString,     _S(HALT_COMMAND),                               _S("Halt command"));
          Entry(RebootCommand,       QString,     _S(REBOOT_COMMAND),                             _S("Reboot command"));
-@@ -51,7 +50,7 @@
+         Entry(Numlock,             NumState,    NUM_NONE,                                       _S("Initial NumLock state. Can be on, off or none.\n"
+@@ -51,7 +50,7 @@ namespace SDDM {
          //  Name   Entries (but it's a regular class again)
          Section(Theme,
              Entry(ThemeDir,            QString,     _S(DATA_INSTALL_DIR "/themes"),             _S("Theme directory path"));
@@ -20,7 +23,7 @@ diff -bur ../sddm-e07e805c21310572b4fecc810fd5610b1d3d03fd-old/src/common/Config
              Entry(FacesDir,            QString,     _S(DATA_INSTALL_DIR "/faces"),              _S("Global directory for user avatars\n"
                                                                                                     "The files should be named <username>.face.icon"));
              Entry(CursorTheme,         QString,     QString(),                                  _S("Cursor theme used in the greeter"));
-@@ -71,9 +70,9 @@
+@@ -71,9 +70,9 @@ namespace SDDM {
              Entry(SessionDir,          QStringList, {_S("/usr/local/share/xsessions"),
                                                       _S("/usr/share/xsessions")},               _S("Comma-separated list of directories containing available X sessions"));
              Entry(SessionCommand,      QString,     _S(SESSION_COMMAND),                        _S("Path to a script to execute when starting the desktop session"));
@@ -33,7 +36,7 @@ diff -bur ../sddm-e07e805c21310572b4fecc810fd5610b1d3d03fd-old/src/common/Config
              Entry(EnableHiDPI,         bool,        true,                                      _S("Enable Qt's automatic high-DPI scaling"));
          );
  
-@@ -82,12 +81,12 @@
+@@ -82,12 +81,12 @@ namespace SDDM {
              Entry(SessionDir,          QStringList, {_S("/usr/local/share/wayland-sessions"),
                                                       _S("/usr/share/wayland-sessions")},        _S("Comma-separated list of directories containing available Wayland sessions"));
              Entry(SessionCommand,      QString,     _S(WAYLAND_SESSION_COMMAND),                _S("Path to a script to execute when starting the desktop session"));
