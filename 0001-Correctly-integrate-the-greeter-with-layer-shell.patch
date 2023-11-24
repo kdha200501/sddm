@@ -1,0 +1,73 @@
+From 22bc9d6e96dbaa89e2eb240ce4deaf462506cff8 Mon Sep 17 00:00:00 2001
+From: Alessandro Astone <ales.astone@gmail.com>
+Date: Mon, 20 Nov 2023 23:41:05 +0100
+Subject: [PATCH] Correctly integrate the greeter with layer-shell
+
+When using Wayland as the display server it is possible and very
+likely that we are requested to use the layer-shell protocol to
+display the greeter, as it better fits its windowing model.
+This is selected with QT_WAYLAND_SHELL_INTEGRATION=layer-shell.
+
+With Plasma 6 LayerShellQt has changed the default keyboard policy
+to not receive any inputs, now following the protocol spec.
+That breaks the ability type in a username/password, unless we
+request it to enable keyboard events again.
+---
+ CMakeLists.txt             | 3 +++
+ src/greeter/CMakeLists.txt | 1 +
+ src/greeter/GreeterApp.cpp | 6 ++++++
+ 3 files changed, 10 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index e333839..e0fb5a5 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -73,6 +73,9 @@ find_package(XCB REQUIRED)
+ # XKB
+ find_package(XKB REQUIRED)
+ 
++# LayerShell integration
++find_package(LayerShellQt REQUIRED)
++
+ # Qt
+ if(BUILD_WITH_QT6)
+     set(QT_MAJOR_VERSION 6)
+diff --git a/src/greeter/CMakeLists.txt b/src/greeter/CMakeLists.txt
+index 7718afc..8bb27af 100644
+--- a/src/greeter/CMakeLists.txt
++++ b/src/greeter/CMakeLists.txt
+@@ -31,6 +31,7 @@ qt_add_resources(RESOURCES ${CMAKE_CURRENT_BINARY_DIR}/theme.qrc)
+ add_executable(sddm-greeter ${GREETER_SOURCES} ${RESOURCES})
+ target_link_libraries(sddm-greeter
+                       Qt${QT_MAJOR_VERSION}::Quick
++                      LayerShellQt::Interface
+                       ${LIBXCB_LIBRARIES}
+                       ${LIBXKB_LIBRARIES})
+ 
+diff --git a/src/greeter/GreeterApp.cpp b/src/greeter/GreeterApp.cpp
+index 01613cc..2b6d583 100644
+--- a/src/greeter/GreeterApp.cpp
++++ b/src/greeter/GreeterApp.cpp
+@@ -45,6 +45,8 @@
+ #include <QVersionNumber>
+ #include <QSurfaceFormat>
+ 
++#include <LayerShellQt/Window>
++
+ #include <iostream>
+ 
+ #define TR(x) QT_TRANSLATE_NOOP("Command line parser", QStringLiteral(x))
+@@ -151,6 +153,10 @@ namespace SDDM {
+         //view->setGeometry(QRect(QPoint(0, 0), screen->geometry().size()));
+         view->setGeometry(screen->geometry());
+         view->setFlags(Qt::FramelessWindowHint);
++        if (auto layerWindow = LayerShellQt::Window::get(view)) {
++            layerWindow->setKeyboardInteractivity(LayerShellQt::Window::KeyboardInteractivityExclusive);
++        }
++
+         m_views.append(view);
+ 
+         // remove the view when the screen is removed, but we
+-- 
+2.42.0
+
