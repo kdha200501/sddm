@@ -77,9 +77,14 @@ BuildRequires:  pkgconfig(systemd)
 # sometimes python-docutils, sometimes python2-docutils, sometimes python3-docutils.
 # use path then for sanity
 BuildRequires:  /usr/bin/rst2man
-BuildRequires:  qt6-qtbase-devel
-BuildRequires:  qt6-qtdeclarative-devel
-BuildRequires:  qt6-qttools-devel
+BuildRequires:  cmake(Qt6Core)
+BuildRequires:  cmake(Qt6DBus)
+BuildRequires:  cmake(Qt6Gui)
+BuildRequires:  cmake(Qt6Qml)
+BuildRequires:  cmake(Qt6Quick)
+BuildRequires:  cmake(Qt6LinguistTools)
+BuildRequires:  cmake(Qt6Test)
+BuildRequires:  cmake(Qt6QuickTest)
 BuildRequires:  cmake(LayerShellQt)
 # verify presence to pull defaults from /etc/login.defs
 BuildRequires:  shadow-utils
