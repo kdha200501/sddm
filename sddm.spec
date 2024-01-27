@@ -70,10 +70,11 @@ Provides: service(graphical-login) = sddm
 
 BuildRequires:  cmake >= 2.8.8
 BuildRequires:  extra-cmake-modules
-BuildRequires:  libxcb-devel
 BuildRequires:  pam-devel
 BuildRequires:  pkgconfig(libsystemd)
 BuildRequires:  pkgconfig(systemd)
+BuildRequires:  pkgconfig(xcb)
+BuildRequires:  pkgconfig(xcb-xkb)
 # sometimes python-docutils, sometimes python2-docutils, sometimes python3-docutils.
 # use path then for sanity
 BuildRequires:  /usr/bin/rst2man
