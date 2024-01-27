@@ -7,8 +7,8 @@
 
 Name:           sddm
 Version:        0.20.0%{?commitdate:^git%{commitdate}.%{shortcommit}}
-Release:        7%{?dist}
-License:        GPLv2+
+Release:        8%{?dist}
+License:        GPL-2.0-or-later
 Summary:        QML based desktop and login manager
 
 Url:            https://github.com/sddm/sddm
@@ -277,6 +277,9 @@ rm -fv %{buildroot}%{_sysconfdir}/sddm/Xsession
 
 
 %changelog
+* Sat Jan 27 2024 Neal Gompa <ngompa@fedoraproject.org> - 0.20.0-8
+- Switch to SPDX license identifiers
+
 * Thu Nov 23 2023 Neal Gompa <ngompa@fedoraproject.org> - 0.20.0-7
 - Disable X11 subpackage in RHEL 10+
 - Drop unneeded scriptlets
