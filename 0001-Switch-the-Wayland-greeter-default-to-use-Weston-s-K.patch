@@ -1,0 +1,56 @@
+From 6fd2279b0f5c5cc3d42d1af2858144cc0297fde0 Mon Sep 17 00:00:00 2001
+From: Neal Gompa <neal@gompa.dev>
+Date: Mon, 29 Jan 2024 06:46:38 -0500
+Subject: [PATCH] Switch the Wayland greeter default to use Weston's Kiosk
+ shell
+
+Weston introduced the kiosk shell in Weston 9.0 and deprecated the
+fullscreen shell in Weston 12.0.
+---
+ data/man/sddm.conf.rst.in  | 2 +-
+ src/common/Configuration.h | 2 +-
+ src/daemon/Greeter.cpp     | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/data/man/sddm.conf.rst.in b/data/man/sddm.conf.rst.in
+index 32bebf8..0d00919 100644
+--- a/data/man/sddm.conf.rst.in
++++ b/data/man/sddm.conf.rst.in
+@@ -170,7 +170,7 @@ The `UserAuthFile=` option was removed, the file is always created as
+ 
+ `CompositorCommand=`
+         Path of the compositor to execute when starting the greeter.
+-        Default value is "weston --shell=fullscreen-shell.so".
++        Default value is "weston --shell=kiosk".
+ 
+ `SessionDir=`
+ 	Comma-separated list of directories containing session files.
+diff --git a/src/common/Configuration.h b/src/common/Configuration.h
+index 54bcace..4c3572d 100644
+--- a/src/common/Configuration.h
++++ b/src/common/Configuration.h
+@@ -78,7 +78,7 @@ namespace SDDM {
+         );
+ 
+         Section(Wayland,
+-            Entry(CompositorCommand,   QString,     _S("weston --shell=fullscreen-shell.so"),   _S("Path of the Wayland compositor to execute when starting the greeter"));
++            Entry(CompositorCommand,   QString,     _S("weston --shell=kiosk"),                 _S("Path of the Wayland compositor to execute when starting the greeter"));
+             Entry(SessionDir,          QStringList, {_S("/usr/local/share/wayland-sessions"),
+                                                      _S("/usr/share/wayland-sessions")},        _S("Comma-separated list of directories containing available Wayland sessions"));
+             Entry(SessionCommand,      QString,     _S(WAYLAND_SESSION_COMMAND),                _S("Path to a script to execute when starting the desktop session"));
+diff --git a/src/daemon/Greeter.cpp b/src/daemon/Greeter.cpp
+index c0437ae..33d3aab 100644
+--- a/src/daemon/Greeter.cpp
++++ b/src/daemon/Greeter.cpp
+@@ -207,7 +207,7 @@ namespace SDDM {
+                 m_auth->setCookie(qobject_cast<XorgDisplayServer*>(displayServer)->cookie());
+             } else if (m_display->displayServerType() == Display::WaylandDisplayServerType) {
+                 env.insert(QStringLiteral("QT_QPA_PLATFORM"), QStringLiteral("wayland"));
+-                env.insert(QStringLiteral("QT_WAYLAND_SHELL_INTEGRATION"), QStringLiteral("fullscreen-shell-v1"));
++                env.insert(QStringLiteral("QT_WAYLAND_SHELL_INTEGRATION"), QStringLiteral("xdg-shell"));
+             }
+             m_auth->insertEnvironment(env);
+ 
+-- 
+2.43.0
+
