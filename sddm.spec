@@ -90,7 +90,8 @@ BuildRequires:  cmake(Qt6Quick)
 BuildRequires:  cmake(Qt6LinguistTools)
 BuildRequires:  cmake(Qt6Test)
 BuildRequires:  cmake(Qt6QuickTest)
-BuildRequires:  cmake(LayerShellQt)
+# Require the Qt 6 version of LayerShellQt
+BuildRequires:  cmake(LayerShellQt) >= 5.27.80
 # verify presence to pull defaults from /etc/login.defs
 BuildRequires:  shadow-utils
 BuildRequires:  systemd
