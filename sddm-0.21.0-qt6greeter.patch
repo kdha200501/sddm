@@ -1,17 +1,17 @@
-From 069cdc8c3c187ba9290e9438912d661561d164f9 Mon Sep 17 00:00:00 2001
+From 7c9aefc875f88f3c8c5c7a1706241a3ac5025fe0 Mon Sep 17 00:00:00 2001
 From: Neal Gompa <neal@gompa.dev>
-Date: Wed, 28 Feb 2024 14:24:37 -0500
+Date: Wed, 28 Feb 2024 14:33:33 -0500
 Subject: [PATCH] Default to Qt6 and always use versioned greeters
 
 Distributors can handle creating an unversioned name if necessary.
 ---
- src/common/ThemeMetadata.cpp | 2 +-
+ src/common/ThemeMetadata.cpp | 4 ++--
  src/daemon/Greeter.cpp       | 2 +-
  src/greeter/CMakeLists.txt   | 9 +--------
- 3 files changed, 3 insertions(+), 10 deletions(-)
+ 3 files changed, 4 insertions(+), 11 deletions(-)
 
 diff --git a/src/common/ThemeMetadata.cpp b/src/common/ThemeMetadata.cpp
-index 2cb3762..2599a00 100644
+index 2cb3762..003056a 100644
 --- a/src/common/ThemeMetadata.cpp
 +++ b/src/common/ThemeMetadata.cpp
 @@ -28,7 +28,7 @@ namespace SDDM {
@@ -23,6 +23,14 @@ index 2cb3762..2599a00 100644
      };
  
      ThemeMetadata::ThemeMetadata(const QString &path, QObject *parent) : QObject(parent), d(new ThemeMetadataPrivate()) {
+@@ -61,6 +61,6 @@ namespace SDDM {
+         d->mainScript = settings.value(QStringLiteral("SddmGreeterTheme/MainScript"), QStringLiteral("Main.qml")).toString();
+         d->configFile = settings.value(QStringLiteral("SddmGreeterTheme/ConfigFile"), QStringLiteral("theme.conf")).toString();
+         d->translationsDirectory = settings.value(QStringLiteral("SddmGreeterTheme/TranslationsDirectory"), QStringLiteral(".")).toString();
+-        d->qtVersion = settings.value(QStringLiteral("SddmGreeterTheme/QtVersion"), 5).toInt();
++        d->qtVersion = settings.value(QStringLiteral("SddmGreeterTheme/QtVersion"), 6).toInt();
+     }
+ }
 diff --git a/src/daemon/Greeter.cpp b/src/daemon/Greeter.cpp
 index 07fccde..01877a1 100644
 --- a/src/daemon/Greeter.cpp
