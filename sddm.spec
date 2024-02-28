@@ -31,6 +31,9 @@ Patch103:       sddm-0.18.0-environment_file.patch
 # Workaround for https://pagure.io/fedora-kde/SIG/issue/87
 Patch104:       sddm-rpmostree-tmpfiles-hack.patch
 
+# Workaround lack of Qt 5 greeter build
+Patch105:       sddm-0.21.0-qt6greeter.patch
+
 # Shamelessly stolen from gdm
 Source11:       sddm.pam
 # Shamelessly stolen from gdm
@@ -190,6 +193,11 @@ cp -a %{buildroot}%{_datadir}/sddm/scripts/* \
       %{buildroot}%{_sysconfdir}/sddm/
 # we're using /etc/X11/xinit/Xsession (by default) instead
 rm -fv %{buildroot}%{_sysconfdir}/sddm/Xsession
+
+%if 0%{?fedora} && 0%{?fedora} < 43
+# Provide unversioned greeter until F40 is EOL
+ln -sr %{buildroot}%{_bindir}/sddm-greeter-qt6 %{buildroot}%{_bindir}/sddm-greeter
+%endif
 
 
 %pre
