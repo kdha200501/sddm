@@ -25,6 +25,8 @@ Patch11:        0001-Delay-for-logind-and-fallback-to-seat0.patch
 ## downstream patches
 Patch101:       sddm-0.20.0-fedora_config.patch
 
+Patch102:       jacks-cusomizations-primary-screen-only.patch
+
 # sddm.service: +EnvironmentFile=-/etc/sysconfig/sddm
 Patch103:       sddm-0.18.0-environment_file.patch
 
@@ -104,6 +106,8 @@ Requires(pre): shadow-utils
 # Virtual dependency for sddm greeter setup
 Requires: sddm-greeter-displayserver
 Suggests: sddm-wayland-generic
+
+%global debug_package %{nil}
 
 %description
 SDDM is a modern graphical display manager aiming to be fast, simple and
