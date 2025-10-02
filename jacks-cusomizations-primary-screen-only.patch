@@ -1,0 +1,22 @@
+From: Jacks Diao <kdha200501@gmail.com>
+Subject: [PATCH] 0_21_0: test
+---
+Index: src/greeter/GreeterApp.cpp
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/greeter/GreeterApp.cpp b/src/greeter/GreeterApp.cpp
+--- a/src/greeter/GreeterApp.cpp	(revision 62b108f8243ddaca46ab5d23a8e60cfa8012d91d)
++++ b/src/greeter/GreeterApp.cpp	(revision d96fff03ae503e5a73a55d5e2b16e6a7c98ed5ab)
+@@ -275,9 +275,7 @@
+         connect(m_proxy, &GreeterProxy::socketDisconnected, qGuiApp, &QCoreApplication::quit);
+
+         // Create views
+-        const QList<QScreen *> screens = qGuiApp->primaryScreen()->virtualSiblings();
+-        for (QScreen *screen : screens)
+-            addViewForScreen(screen);
++        addViewForScreen(qGuiApp->primaryScreen());
+
+         // Handle screens
+         connect(qGuiApp, &QGuiApplication::screenAdded, this, &GreeterApp::addViewForScreen);

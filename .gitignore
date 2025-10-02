@@ -1,3 +1,5 @@
+rpmdev-tmp/
+.idea/
 /angle-down.png
 /v0.18.0.tar.gz
 /0015-Use-C-scoping-for-handling-buffer-deletion.patch
